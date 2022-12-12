@@ -6,7 +6,9 @@ import hbs_sections from 'express-handlebars-sections'
 import numeral from 'numeral';
 
 const app = express();
-
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use('/public', express.static('public'));
 
 app.engine('hbs', engine({
