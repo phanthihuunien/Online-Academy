@@ -140,11 +140,31 @@
         </div>
         <div class="row" style="margin-top: 20px">
             <h5>Student also bought</h5>
+        <div class="d-flex justify-content-between">
             {{#each top5}}
-                <img src="" alt="{{top5.COURSENAME}}"><span style="font-size: 22px">{{top5.COURSENAME}}</span>
+                <div ><img src="" alt="{{top555.COURSENAME}}" title="{{top555.COURSENAME}}"></div>
+                <h5>{{top555.COURSENAME}}</h5>
+                <div >
+                    <p class="card-text" id="txt" style="color:#ffd141"> {{top555.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
+                        <span class="text" style="color:plum">  ({{format_number top555.RATENUM}})   </span>
 
-                <div>{{top5}}</div>
+
+                    </p>
+                    <p class="card-text"><span class="text" >{{format_number top555.PRICE}} VND</span></p>
+
+
+                </span>
+            </div>
+
+
+
+
+
+
+
+
             {{/each}}
+        </div>
 
         </div>
         <div class="row" style="margin-top: 20px">

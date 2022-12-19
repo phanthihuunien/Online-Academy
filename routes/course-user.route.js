@@ -45,9 +45,18 @@ router.get("/detail/:id", async function (req, res) {
         });
     }
 
+
+
     let top5 = [];
-    top5 = await topCourseModel.findTop(course.ID_CATE);
-    console.log(top5[0])
+
+    const top55 = await topCourseModel.findTop(course.ID_CATE);
+    for(let top555 of top55){
+        top5.push({top555})
+    }
+
+
+
+
 
 
 

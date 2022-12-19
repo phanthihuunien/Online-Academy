@@ -2,8 +2,9 @@ import db from '../utils/db.js';
 
 export default{
    async findTop(id){
-        const list = await db('course').where('ID_CATE',id)
-        if(list.length === 0){
+        const list = await db('course').where('ID_CATE',id).orderBy('STUNUM', 'desc')
+
+       if(list.length === 0){
 
             return null;
         }
