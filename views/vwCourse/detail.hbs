@@ -76,8 +76,14 @@
 
             <div class="col-5">
                 <h5 style="margin-bottom: 20px">Course Content</h5>
-                <p  style="text-align: right"><span style="color: plum">Expand all sections</span></p>
+                <div class="d-flex justify-content-between">
+                    <p>{{this.course.VIEWED}} sections - {{this.course.LENGTHS}} total length</p>
+                    <a  href="#" ><span style="color: plum"  >Expand all sections</span></a>
+                </div>
+
+
                 <div id="accordion" >
+
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h5 class="mb-0">
@@ -98,6 +104,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header" id="headingTwo">
                             <h5 class="mb-0">
@@ -138,9 +145,10 @@
                 </div>
 
 
+
             </div>
         </div>
-        <h5>Student also bought</h5>
+        <h4>Student also bought</h4>
         <div class="row" style="margin-top: 20px">
 
         <div class="d-flex justify-content-between">
@@ -149,11 +157,13 @@
                 <div>
 
                     <a href="/category/course/detail/{{top555.ID_COURSE}}" ><img src="/public/imgs/course/{{top555.ID_COURSE}}/main_thumbs.jpg" alt="{{top555.COURSENAME}}" title="{{top555.COURSENAME}}"></a>
-                    <a style="color: black" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
+
                 </div>
+               <div></div>
 
                 <div >
                     <p>
+                        <a style="color: black" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
                     <p class="card-text" id="txt" style="color:#ffd141"> {{top555.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
                         <span class="text" style="color:plum">  ({{format_number top555.RATENUM}})   </span>
                     </p>
