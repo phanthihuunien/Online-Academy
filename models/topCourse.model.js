@@ -1,8 +1,10 @@
 import db from '../utils/db.js';
 
 export default{
-   async findTop(id){
-        const list = await db('course').where('ID_CATE',id).orderBy('STUNUM', 'desc')
+   async findTop(id,id_course){
+        const list = await db('course').where('ID_CATE',id)
+            .whereNot('ID_COURSE',id_course)
+            .orderBy('STUNUM', 'desc')
 
        if(list.length === 0){
 

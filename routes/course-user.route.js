@@ -49,7 +49,7 @@ router.get("/detail/:id", async function (req, res) {
 
     let top5 = [];
 
-    const top55 = await topCourseModel.findTop(course.ID_CATE);
+    const top55 = await topCourseModel.findTop(course.ID_CATE,courseID);
     for(let top555 of top55){
         top5.push({top555})
     }
