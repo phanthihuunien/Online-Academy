@@ -9,7 +9,7 @@ import userModel from '../models/user.model.js'
 
 
 const router = express.Router();
-router.get("/profile",  async function (req, res) {
+router.get("/profile",  async function (req, res) {  // phai co Auth
    // const userdata = req.session.loggedinUser;
     const user = await userModel.findbyID(1);
     res.render("vwAccount/profile", {
