@@ -1,7 +1,7 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import hbs_sections from 'express-handlebars-sections'
-
+import homePageRoute from "./routes/homePage.route.js";
 
 import numeral from 'numeral';
 
@@ -38,7 +38,10 @@ app.get('/', function (req, res) {
 app.get('/about', function (req, res) {
   res.render('about');
 })
-
+// app.get('/homePage', function(req, res){
+//   res.render('vwHomePage/homePage')
+// })
+app.use('/homePage', homePageRoute);
 app.use(function (req, res, next) {
   res.render('404', { layout: false });
 });

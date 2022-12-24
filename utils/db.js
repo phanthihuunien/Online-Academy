@@ -4,10 +4,10 @@ const knex = knexObj({
   client: 'mysql2',
   connection: {
     host: '127.0.0.1',
-    port: 8889,
+    port: 3307,
     user: 'root',
-    password: 'root',
-    database: 'ecdb'
+    password: '',
+    database: 'oadb'
   },
   pool: { min: 0, max: 10 }
 });
