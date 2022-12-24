@@ -8,6 +8,7 @@ router.get('/', async function(req, res) {
     let listTop10 = await courseModel.top10Popular();
     const newCourseList = await courseModel.newCourse();
     const items = [];
+    const items2 = [];
     for (let course of listTop10) {
         let instructor = await userModel.getCourseFromUser(course.ID_USER);
         items.push({
@@ -15,10 +16,17 @@ router.get('/', async function(req, res) {
             instructor
         });
     }
+    for (let course of newCourseList) {
+        let instructor = await userModel.getCourseFromUser(course.ID_USER);
+        items2.push({
+            course,
+            instructor
+        });
+    }
     res.render('vwHomePage/homePage',{
         pplCourse: listPplCourse,
         top10: items,
-        newCourseList: newCourseList,
+        newCourseList: items2,
         empty: listPplCourse === 0
 
     });
