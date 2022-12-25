@@ -12,7 +12,14 @@ export default{
         return list[0];
 
 
+    },
+    async update(newUser){
+        return await db('users')
+            .where('ID_USER',newUser.ID_USER)
+            .update({users:newUser});
+
     }
+
 
 
 }

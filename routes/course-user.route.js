@@ -57,7 +57,16 @@ router.get("/detail/:id", async function (req, res) {
         rate+=ratestar.RATE;
         num+=1;
     }
-    rate = rate*1.0/num
+    if(num ==0){
+        rate =0;
+    }
+    else{
+        rate = rate*1.0/num
+    }
+    course.RATE = rate;
+    course.RATENUM = num;
+
+
 
 
     let instructor = await userModel.findbyID(course.ID_USER);
@@ -74,6 +83,7 @@ router.get("/detail/:id", async function (req, res) {
 
     const top55 = await topCourseModel.findTop(course.ID_CATE,courseID);
     for(let top555 of top55){
+
         top5.push({top555})
     }
 
@@ -93,7 +103,8 @@ router.get("/detail/:id", async function (req, res) {
         feedbackdata,
         top5,
         rate,
-        instructor
+        instructor,
+        num
 
     });
 });
@@ -105,9 +116,6 @@ router.get("/detail/:id_course/:id_detail", async function (req, res) {
     if (detail === null) {
         return res.redirect("/");
     }
-
-
-
     res.render('vwCourse/lesson', {
         detail
 

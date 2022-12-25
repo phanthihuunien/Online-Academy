@@ -56,19 +56,19 @@ router.get("/", async function (req, res) {
 
     router.post("/add", async function (req, res) {
         //get infor of course & user
-        const courseid = +req.body.ID_COURSE;
+       // const courseid = +req.body.ID_COURSE;
         //const userid = req.session.loggedinUser.ID_USER;
 
         //check if this date has existed
         // const datum = await wishlistModel.findAllbyUserAndCourseID(userid, courseid);
         //test
-        const datum = await wishlistModel.findAllbyUserAndCourseID(1, courseid);
+        const datum = await wishlistModel.findAllbyUserAndCourseID(1, 1);
         if (datum.length === 0) {
             //add data to db
             await wishlistModel.add({
                 //ID_USER: userid,
                 ID_USER: 1,
-                ID_COURSE: courseid,
+                ID_COURSE: 1,
             });
         }
         res.redirect(req.headers.referer);
@@ -76,24 +76,24 @@ router.get("/", async function (req, res) {
 
     router.post("/remove", async function (req, res) {
         //get infor of course & user
-        const courseid = +req.body.ID_COURSE;
+       // const courseid = +req.body.ID_COURSE;
         // const userid = req.session.loggedinUser.ID_USER;
 
         //get data from db to achive id_wishlist
         //const datum = await wishlistModel.findAllbyUserAndCourseID(userid, courseid);
         //test
-        const datum = await wishlistModel.findAllbyUserAndCourseID(1, courseid);
+        const datum = await wishlistModel.findAllbyUserAndCourseID(1, 1);
 
         const delItem = {
             ID_WISHLIST: datum[0].ID_WISHLIST,
             //test
             ID_USER: 1,
             // ID_USER: userid,
-            ID_COURSE: courseid,
+            ID_COURSE: 1,
         };
 
 
-        await wishlistModel.del(delItem.ID_WISHLIST);
+       const ret =  await wishlistModel.del(delItem.ID_WISHLIST);
         res.redirect(req.headers.referer);
     });
 
