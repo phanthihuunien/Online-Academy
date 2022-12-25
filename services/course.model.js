@@ -16,6 +16,7 @@ export default {
     newCourse() {
         return db('course').orderBy('LASTUPDATE', 'desc').limit(10);
     },
+
 }
 //     allViewDes() {
 //         return db.load(

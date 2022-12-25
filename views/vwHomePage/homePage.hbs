@@ -62,8 +62,12 @@
                                     <img class="card-img-top" src="./public/images/courses/{{course.ID_COURSE}}/{{course.ID_COURSE}}_thumbnail.png" alt={{course.COURSENAME}}>
                                     <div class="card-body">
                                         <h5 class="card-title">{{course.COURSENAME}}</h5>
-                                        <p class="card-text text-muted">{{instructor.FULLNAME}}</p>
-                                        <h5 class="card-title text-danger">{{format_number course.PRICE}}.</h5>
+                                        <div class="card-text text-muted">{{instructor.FULLNAME}}</div>
+                                        <div>{{courseRate}} {{renderStars courseRate}} ({{course.RATENUM}})</div>
+                                        <h5 class="card-title text-danger">{{format_number course.PRICE}} VND</h5>
+                                        {{#if bestSeller}}
+                                            <span class="bg-primary text-white font-italic">Bestseller</span>
+                                        {{/if}}
                                     </div>
 
                                     <div class="card-footer">
@@ -106,8 +110,12 @@
                                     <img class="card-img-top" src="./public/images/courses/{{course.ID_COURSE}}/{{course.ID_COURSE}}_thumbnail.png" alt={{course.COURSENAME}}>
                                     <div class="card-body">
                                         <h5 class="card-title">{{course.COURSENAME}}</h5>
-                                        <p class="card-text text-muted">{{instructor.FULLNAME}}</p>
-                                        <h5 class="card-title text-danger">{{format_number course.PRICE}}.</h5>
+                                        <div class="card-text text-muted">{{instructor.FULLNAME}}</div>
+                                        <div>{{courseRate}} {{renderStars courseRate}} ({{course.RATENUM}})</div>
+                                        <h5 class="card-title text-danger">{{format_number course.PRICE}} VND</h5>
+                                        {{#if bestSeller}}
+                                            <span class="bg-primary text-white font-italic">Bestseller</span>
+                                        {{/if}}
                                     </div>
 
                                     <div class="card-footer">

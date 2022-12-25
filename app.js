@@ -1,5 +1,6 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
+import Handlebars from 'handlebars';
 import hbs_sections from 'express-handlebars-sections'
 import homePageRoute from "./routes/homePage.route.js";
 
@@ -19,12 +20,28 @@ app.engine('hbs', engine({
     section: hbs_sections(),
     format_number(val) {
       return numeral(val).format('0,0');
-    }
+    },
+    renderStars(rating){
+      let result = '';
+      for (let i = 1; i <= 5; i++) {
+        let checked = rating >= i ? ' checked' : '';
+        result += `<span class='fa fa-star${checked}'></span>`;
+      }
+      return new Handlebars.SafeString(result);
+    },
   }
 }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
+// Handlebars.registerHelper('renderStars', (rating) => {
+//   let result = '';
+//   for (let i = 1; i <= 5; i++) {
+//     let checked = rating >= i ? ' checked' : '';
+//     result += `<span class='fa fa-star${checked}'></span>`;
+//   }
+//   return new Handlebars.SafeString(result);
+// });
 // app.use(async function (req, res, next) {
 //   res.locals.lcCategories = await categoryService.findAllWithDetails();
 //   next();
