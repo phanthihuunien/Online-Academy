@@ -14,7 +14,7 @@ export default{
         return list[0];
 
 
-    },
+    }
 
 
 

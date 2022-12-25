@@ -19,6 +19,10 @@ router.get("/detail/:id", async function (req, res) {
         return res.redirect("/");
     }
 
+
+
+
+
     //calculate discount price
     let realPrice = 0;
     let isDiscount = true;
@@ -31,9 +35,10 @@ router.get("/detail/:id", async function (req, res) {
         realPrice = price - (price * sale) / 100;
     }
 
-    const usercourse = await userCourseModel.getFeedbackWithCourseID(
+    const usercourse = await userCourseModel.findAllbyCourseID(
         course.ID_COURSE
     );
+
 
     let feedbackdata = [];
     for (let feedback of usercourse) {
@@ -44,6 +49,24 @@ router.get("/detail/:id", async function (req, res) {
             user,
         });
     }
+
+    let rate =0;
+    let num =0;
+
+    for (let ratestar of usercourse){
+        rate+=ratestar.RATE;
+        num+=1;
+    }
+    rate = rate*1.0/num
+
+
+    let instructor = await userModel.findbyID(course.ID_USER);
+
+
+
+
+
+
 
 
 
@@ -68,7 +91,9 @@ router.get("/detail/:id", async function (req, res) {
         realPrice,
         isDiscount,
         feedbackdata,
-        top5
+        top5,
+        rate,
+        instructor
 
     });
 });

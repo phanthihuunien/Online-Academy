@@ -2,16 +2,16 @@
     <h4 class="card-header">
         {{this.course.COURSENAME}}
     </h4>
-    <div class="card-body">
+    <div class="card-body" >
         <div class="row" >
             <div class="col-8" style="background-color:black" ><span style=" margin-top: 24px;">
-               
-                <div ><img src="/public/imgs/course/{{this.course.ID_COURSE}}/main.jpg"
+
+                <div style="margin-top: 20px;"><img src="/public/imgs/course/{{this.course.ID_COURSE}}/main.jpg"
                            alt="{{this.course.COURSENAME}}" title="{{this.course.COURSENAME}}"></div>
                 <div style="margin-right: 20px;">
                     <p class="card-text" id="txt"  style="color: white"    ><span style="font-size: 20px"> {{this.course.SHORTDES}}</span></p></div>
                 <div style="margin-right: 20px;">
-                    <p class="card-text" id="txt" style="color:#ffd141"> {{this.course.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
+                    <p class="card-text" id="txt" style="color:#ffd141"> {{rate}}/5<i class="fa fa-star" aria-hidden="true"></i>
                         <span class="text" style="color:plum">  ({{format_number this.course.RATENUM}}) ratings   </span>
                         <span class="text" style="color: white">{{format_number this.course.STUNUM}} students </span>
                     </p>
@@ -25,7 +25,7 @@
 
             <div class="col-2" style="background-color: antiquewhite "  >
                 {{#if isDiscount}}
-                <p class="card-text" ><span class="text"style="font-size: 25px"><del>{{format_number this.course.PRICE}} VND</del></span></p>
+                <p class="card-text" ><span class="text"style="font-size: 30px"><del>{{format_number this.course.PRICE}} VND</del></span></p>
                 <p class="card-text" style="font-size: 25px">Price: <span class="text-danger" style="font-size: 25px">{{format_number realPrice}} VND</span></p>
                 {{else}}
                     <p class="card-text"><span class="text" style="font-size: 25px">{{format_number this.course.PRICE}} VND</span></p>
@@ -57,12 +57,12 @@
 
                     <p>
                     <div >
-                        <div><img src="D:\1.png" alt="teacher"
+                        <div><img src="/public/imgs/course/{{this.course.ID_COURSE}}/main_thumbs.jpg" alt="teacher"
                                   title="teacher"></div>
 
                         <div style="margin-left: 20px;">
-                            <p class="card-text">Instructor: August</p>
-                            <p class="card-text">Bio: teacher at AAA school</p>
+                            <p class="card-text">Instructor: {{instructor.USERNAME}}</p>
+                            <p class="card-text">Bio:{{instructor.PROFILE}} </p>
                         </div>
 
                     </div>
@@ -116,9 +116,9 @@
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                             <div class="card-body">
                                 <div class="list-group">
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview INTRODUCTION</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 1</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 2</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/1" ><i class="fa fa-play" aria-hidden="true"></i> preview INTRODUCTION</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/2" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 1</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/3" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 2</a>
 
                                 </div>
                             </div>
@@ -135,9 +135,9 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                             <div class="card-body">
                                 <div class="list-group">
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview INTRODUCTION</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 1</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 2</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/1" ><i class="fa fa-play" aria-hidden="true"></i> preview INTRODUCTION</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/2" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 1</a>
+                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/3" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 2</a>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                 <div >
                     <p>
                         <a style="color: black" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
-                    <p class="card-text" id="txt" style="color:#ffd141"> {{top555.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
+                    <p class="card-text" id="txt" style="color:#ffd141"> {{top555.rate}}/5<i class="fa fa-star" aria-hidden="true"></i>
                         <span class="text" style="color:plum">  ({{format_number top555.RATENUM}})   </span>
                     </p>
 
@@ -174,50 +174,50 @@
                     <p class="card-text"><span class="text" >{{format_number top555.PRICE}} VND</span></p>
 
 
-                </span>
+
             </div>
-
-
-
-
-
-
-
 
             {{/each}}</div>
         </div>
 
-        </div>
 
 
+    <h4>Course ratings</h4>
+        <div class="row" style="margin-top: 20px">
 
-
-
-
-
-
-
-
-    <h5>Course ratings</h5>
-        <div class="row" style="margin-top: 10px">
-
-            <div style=" margin-left: 24px;">
-
+            <div class="d-flex justify-content-between">
                 {{#each feedbackdata}}
-                    <div >
-                        <img src="" alt="{{this.user.FULLNAME}}"><span style="font-size: 22px">{{this.user.FULLNAME}}</span>
-                        <div style="margin-left: 20px;">
 
-                            <div ><strong>Rating: {{feedback.RATE}}/5</strong> <i class="fa fa-star" aria-hidden="true"style="color:#ffd141 " ></i>
-                            </div>
-                            <div>{{feedback.FEEDBACK}}</div>
-                        </div>
+                    <div>
+
+                        <a href="/category/course/detail/{{user.ID_USER}}" ><img src="/public/imgs/course/{{feedback.ID_COURSE}}/main_thumbs.jpg" alt="{{user.FULLNAME}}" title="{{user.FULLNAME}}"></a>
+
                     </div>
-                {{/each}}
-            </div>
+                    <div></div>
+
+                    <div >
+                        <p>
+                            <p style="color: black" href="#">{{user.FULLNAME}}</p>
+                        <p class="card-text" id="txt" style="color:#ffd141"> {{feedback.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
+
+                        </p>
+
+
+
+                        </p>
+                        <p class="card-text"><span class="text" >{{feedback.FEEDBACK}} </span></p>
+
+
+
+                    </div>
+
+                {{/each}}</div>
         </div>
 
-        </div>
-    </div>
 
 </div>
+</div>
+
+
+
+

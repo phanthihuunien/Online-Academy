@@ -4,6 +4,8 @@ import hbs_sections from 'express-handlebars-sections'
 
 import courseUserRoute from './routes/course-user.route.js';
 import accountUserRoute from './routes/account-user.route.js';
+import wishlistRoute from './routes/wishlist.route.js';
+import myCourseRoute from './routes/mycourse.route.js';
 
 
 
@@ -47,6 +49,9 @@ app.get('/about', function (req, res) {
 
 app.use('/category/course',courseUserRoute);
 app.use('/account',accountUserRoute);
+app.use('/account/wishlist',wishlistRoute);
+app.use('/account/mycourse',myCourseRoute);
+
 
 app.use(function (req, res, next) {
     res.render('404', { layout: false });
