@@ -13,12 +13,14 @@ export default{
 
 
     },
-    async update(newUser){
-        return await db('users')
-            .where('ID_USER',newUser.ID_USER)
-            .update({users:newUser});
 
-    }
+    async update(entity) {
+        const id = entity.ID_USER;
+        delete entity.ID_USER;
+        return await db('users')
+            .where('ID_USER',id)
+            .update(entity);
+    },
 
 
 

@@ -11,14 +11,17 @@ import userModel from '../models/user.model.js'
 const router = express.Router();
 router.get("/profile",  async function (req, res) {  // phai co Auth
    // const userdata = req.session.loggedinUser;
-    const user = await userModel.findbyID(1);
+    const users = await userModel.findbyID(1);
     res.render("vwAccount/profile", {
-        user,
+        users,
     });
 });
 
 router.post("/profile", async function (req, res) {
+
+
     try {
+
         //get data from user input
         const hashedPass = bcrypt.hashSync(req.body.PASSWORD, 10);
 
@@ -27,7 +30,7 @@ router.post("/profile", async function (req, res) {
             ID_USER: req.body.ID_USER,
             USERNAME: req.body.USERNAME,
             PASSWORD: hashedPass,
-            DOB: convertedDOB,
+            //DOB: convertedDOB,
             FULLNAME: req.body.FULLNAME,
             EMAIL: req.body.EMAIL,
             TYPE: 1,
@@ -37,15 +40,19 @@ router.post("/profile", async function (req, res) {
         //get user password in db to compare
         const user = await userModel.findbyID(newUser.ID_USER);
 
+
         const ret = bcrypt.compareSync(req.body.OldPassword, user.PASSWORD);
-        //if old password match
+        //const ret = (req.body.OldPassword === user.PASSWORD);
+
+
+
         if (ret) {
             //update db data
             await userModel.update(newUser);
 
             //rerender view
             res.render("vwAccount/profile", {
-                userdata: newUser,
+                users: newUser,
                 err_message: "Update Successfull!!!",
             });
         } else {
@@ -59,6 +66,7 @@ router.post("/profile", async function (req, res) {
           //  userdata: req.session.loggedinUser, như trên
             err_message: "Somethings wrong, please check again!!!",
         });
+        console.log(error);
     }
 });
 

@@ -37,12 +37,12 @@
                     </div>
                 {{/if}}
                 <div class="form-group">
-                    <input type="hidden" class="form-control" value="{{this.users.ID_USER}}" id="txtIDUSER"
+                    <input type="hidden" class="form-control" value="{{users.ID_USER}}" id="txtIDUSER"
                            name="ID_USER" readonly>
                 </div>
                 <div class="form-group">
                     <label for="txtUsername">Username</label>
-                    <input type="text" class="form-control" value="{{this.users.USERNAME}}" id="txtUsername"
+                    <input type="text" class="form-control" value="{{users.USERNAME}}" id="txtUsername"
                            name="USERNAME" readonly>
                 </div>
                 <div class="form-group">
@@ -60,30 +60,30 @@
                 </div>
                 <div class="form-group">
                     <label for="txtName">Name</label>
-                    <input type="text" class="form-control" value="{{user.FULLNAME}}" id="txtName"
+                    <input type="text" class="form-control" value="{{users.FULLNAME}}" id="txtName"
                            name="FULLNAME" required>
                 </div>
                 <div class="form-group">
                     <label for="txtEmail">Email</label>
-                    <input type="email" class="form-control" value="{{user.EMAIL}}" id="txtEmail" name="EMAIL"
+                    <input type="email" class="form-control" value="{{users.EMAIL}}" id="txtEmail" name="EMAIL"
                            required>
                 </div>
                 <div class="form-group">
                     <label for="txtDOB">DOB</label>
-                    <input type="text" class="form-control" value="{{user.DOB}}" id="txtDOB" name="DOB"
+                    <input type="text" class="form-control" value="{{users.DOB}}" id="txtDOB" name="DOB"
                            required>
                 </div>
                 <div class="form-group">
                     <label for="txtBio">Bio</label>
-                    <input type="text" class="form-control" id="txtBio" value="{{user.PROFILE}}" name="PROFILE"
+                    <input type="text" class="form-control" id="txtBio" value="{{users.PROFILE}}" name="PROFILE"
                            required>
                 </div>
 
             </div>
             <div class="card-footer text-muted">
-                <button type="submit" class="btn btn-outline-success" formaction="/account/profile" style="justify-content: center">
+                <button type="submit" class="btn btn-lg btn-info btn-block">
                     <i class="fa fa-check" aria-hidden="true"></i>
-                    Update Profile
+                    Update profile
                 </button>
             </div>
         </div>

@@ -16,6 +16,7 @@ import numeral from 'numeral';
 const app = express();
 
 app.use('/public', express.static('public'));
+app.use(express.urlencoded({extended:true}));
 
 app.engine('hbs', engine({
     // defaultLayout: 'main.hbs'
