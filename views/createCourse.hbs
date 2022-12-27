@@ -1,0 +1,176 @@
+{{#section 'css'}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
+{{/section}}
+
+{{#section 'js'}}
+  <script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    // tinymce.init({
+    //   selector: '#txtFullDes',
+    //   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    //   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    // });
+    tinymce.init({
+      selector: '#txtFullDes',
+      menubar: false,
+      plugins: 'paste image link autolink lists table media',
+      toolbar: [
+        'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+      ],
+    });
+  </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
+  <script>
+    $('#fuMain').fileinput({
+      dropZoneEnabled: false,
+      maxFileCount: 1,
+      theme: 'fa4',
+      allowedFileExtensions: ['png'],
+    });
+  </script>
+  
+  
+  
+	<script>
+	const count = 0;
+	function createChapter(){
+		let e = document.getElementByID("Content");
+		
+		//add chapter
+		let chapter = document.createElement("div");
+		let data = document.createElement("data-count");
+		data.value = count;
+		let id = document.createElement("id");
+		id.value = "Chapter";
+		
+		chapter.setAttributeNode(id);
+		chapter.setAttributeNode(data);
+		
+		let html = '
+			<div class="row" >
+				<div class="form-group col-8 me-auto">
+					<label for="txtCourseName">Course name</label>
+					<input name="chapter[${count}]name" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
+				</div>
+				<button class="btn btn-primary" id="addLessonbtn">
+					<i class="fa fa-check" aria-hidden="true"></i>
+					Add
+				</button>
+				<button class="btn btn-primary" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
+					<i class="fa fa-check" aria-hidden="true"></i>
+					Remove
+				</button>
+			</div>
+		  
+			<div id="Lesson">
+				
+				
+			</div>
+			
+		  '
+		chapter.innerHTML = html;
+		count = count + 1;
+
+		e.appendChild(chapter);
+
+	}
+	
+	function createLesson(e){
+		let parent = e.target.parentNode.parentNode;
+		let chapCount = parent.getAttribute("data-count");
+		let e = parent.childNodes[1];
+		
+		//add lesson
+		let lesson = document.createElement("div");
+
+		let class = document.createElement("class");
+		id.value = "row";
+		lesson.setAttributeNode(class);
+		
+		let html = '
+					<div class="col-9 me-auto">
+						<div class="form-group">
+							<label for="txtLessonName">Lesson name</label>
+							<input name="chapter[${chapCount}]lessonName[]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
+						</div>
+					
+						<div class="form-group">
+							<label for="txtLessonUrl">Video url</label>
+							<input name="chapter[${chapCount}]lessonUrl[]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
+						</div>
+					</div>
+					<button class="btn btn-primary" id="removeLesson" onClick="return this.parentNode.remove()">
+						<i class="fa fa-check" aria-hidden="true"></i>
+						Remove
+					</button>
+		'
+		lesson.innerHTML = html;
+		e.appendChild(lesson);
+	}
+	</script>
+  
+  
+  
+{{/section}}
+
+<form method="post" enctype="multipart/form-data">
+  <div class="card">
+    <h4 class="card-header">
+      Edit Course
+    </h4>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="txtCourseName">Course name</label>
+        <input name="CourseName" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
+      </div>
+
+	<div class="row">
+		<div class="form-group col-6">
+			<label for="txtPrice">Price</label>
+			<input name="Price" type="text" class="form-control" id="txtPrice" autofocus placeholder="iPhone">
+		</div>
+	  
+	  <div class="form-group col-6">
+        <label for="txtCat">Catergories</label>
+		<select class="form-control" id=""txtCat name="Cat">
+			<option value="aaaa">aaaa</option>
+		</select>
+      </div>
+	</div>
+	  
+	   <div class="form-group">
+        <label for="fuMain">Image</label>
+        <input type="file" multiple id="fuMain" name="fuMain">
+      </div>
+	  
+      <div class="form-group">
+        <label for="txtFullDes">Description</label>
+        <textarea id="txtFullDes" name="FullDes">Hello, TinyMCE!</textarea>
+      </div>
+	  
+	  //Lesson
+	  <h4>Lesson content</h4>
+		<div id="Content">
+		 
+		</div>
+	  
+	   <button class="btn btn-primary" id="addChapterbtn">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Add
+      </button>
+	  
+    </div>
+	
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Save
+      </button>
+    </div>
+  </div>
+</form>

@@ -30,6 +30,27 @@ app.set('views', './views');
 //   next();
 // });
 
+app.get('/course/create', function (req, res) {
+  res.render('createCourse');
+});
+
+app.post('/course/create', function (req, res) {
+	// insert course, return courseID
+		
+	// save image with courseID
+			
+	req.body.chapter.forEach(chap =>{
+		// insert chap.name, courseID to db, return chapID
+	
+		let i = 0;
+		chap.lessonName.forEach(name=>{
+			// insert name, chap.lessonUrl[i] to db
+			
+		});
+	});
+  res.render('createCourse');
+});
+
 app.get('/', function (req, res) {
   // res.send('Hello World.');
   res.render('home');
