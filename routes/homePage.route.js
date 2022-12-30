@@ -23,7 +23,6 @@ router.get('/', async function(req, res) {
             }
             bestSeller = 0;
         }
-        console.log(bestSeller);
         items.push({
             course,
             instructor,
