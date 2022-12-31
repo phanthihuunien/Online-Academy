@@ -1,9 +1,10 @@
 import express from 'express';
 import { engine } from 'express-handlebars';
 import hbs_sections from 'express-handlebars-sections'
-
-
 import numeral from 'numeral';
+
+import categoryService from '../services/category.service.js';
+import fieldService from '../services/field.service.js';
 
 const app = express();
 app.use(express.urlencoded({
@@ -25,10 +26,34 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
-// app.use(async function (req, res, next) {
-//   res.locals.lcCategories = await categoryService.findAllWithDetails();
-//   next();
-// });
+
+
+app.use(async function (req, res, next) {
+    if (typeof req.session.auth === 'undefined') {
+      req.session.auth = false;
+    }
+
+    res.locals.auth = req.session.auth;
+    res.locals.authUser = req.session.authUser;
+    next();
+  });
+
+  app.use(async function (req, res, next) {
+	  let list = [];
+	  let temp = {};
+	  
+	  let fields = await fieldService.findAll();
+	  fields.forEach(field => {
+		  let catergories = await catService.findById(field.ID_FIELD);
+		  
+		  temp.field = field;
+		  temp.catergories = catergories;
+		  list.push(temp);
+	  });
+   res.locals.lcField_Categories = list;
+
+    next();
+  });
 
 app.get('/course/create', function (req, res) {
   res.render('createCourse');

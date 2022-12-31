@@ -1,15 +1,21 @@
 {{#section 'css'}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css" />
-{{/section}}
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->{{/section}}
 
 {{#section 'js'}}
   <script src="https://cdn.tiny.cloud/1/ezd73nxbzc7bu6e86g2l82jbbffke0mwevwrnyvc5q8h89j6/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-  <script>
-    // tinymce.init({
-    //   selector: '#txtFullDes',
-    //   plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-    //   toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    // });
+  
+    
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
+
+<script>
+
     tinymce.init({
       selector: '#txtFullDes',
       menubar: false,
@@ -19,12 +25,7 @@
       ],
     });
   </script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/themes/fa4/theme.min.js"></script>
+
   <script>
     $('#fuMain').fileinput({
       dropZoneEnabled: false,
@@ -35,86 +36,98 @@
   </script>
   
   
-  
-	<script>
-	const count = 0;
-	function createChapter(){
-		let e = document.getElementByID("Content");
-		
-		//add chapter
-		let chapter = document.createElement("div");
-		let data = document.createElement("data-count");
-		data.value = count;
-		let id = document.createElement("id");
-		id.value = "Chapter";
-		
-		chapter.setAttributeNode(id);
-		chapter.setAttributeNode(data);
-		
-		let html = '
-			<div class="row" >
-				<div class="form-group col-8 me-auto">
-					<label for="txtCourseName">Course name</label>
-					<input name="chapter[${count}]name" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
+  <script>
+    $(document).ready(function() {
+    var count =0;
+    var wrapper = $("#Content");
+    var addChap = $("#addChapterbtn");
+
+   
+    $(addChap).click(function(e) {
+        e.preventDefault();
+        
+            		let html = `<div id="Chapter" data-count="`+ count +`">
+			<div class="row d-flex align-items-center mt-3" >
+				<div class="form-group col-10">
+					<label for="txtCourseName">Chapter name</label>
+					<input name="chapter[`+count+`]name" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
 				</div>
-				<button class="btn btn-primary" id="addLessonbtn">
+				<div class="col-2 d-flex flex-column">
+          <a class="btn btn-primary py-1" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
+            <i class="fa fa-check" aria-hidden="true"></i>
+            Remove
+          </a>
+          <a class="btn btn-primary py-1 mt-1" id="addLessonbtn">
 					<i class="fa fa-check" aria-hidden="true"></i>
 					Add
-				</button>
-				<button class="btn btn-primary" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
-					<i class="fa fa-check" aria-hidden="true"></i>
-					Remove
-				</button>
+				</a>
+        </div>
 			</div>
 		  
-			<div id="Lesson">
+			<div id="Lesson" class="pb-3 row d-flex justify-content-center">
 				
 				
 			</div>
 			
-		  '
-		chapter.innerHTML = html;
-		count = count + 1;
+      </div>
+		  `
+     $(wrapper).append(html); //add input box
+     count++;
+    });
 
-		e.appendChild(chapter);
-
-	}
-	
-	function createLesson(e){
-		let parent = e.target.parentNode.parentNode;
-		let chapCount = parent.getAttribute("data-count");
-		let e = parent.childNodes[1];
-		
-		//add lesson
-		let lesson = document.createElement("div");
-
-		let class = document.createElement("class");
-		id.value = "row";
-		lesson.setAttributeNode(class);
-		
-		let html = '
-					<div class="col-9 me-auto">
+    $(wrapper).on("click", "#addLessonbtn", function(e) {
+        e.preventDefault();
+       let t = $(this).parent('div').parent('div').parent('div');
+       let chapCount = t.data('count');
+      
+      let lesContainer = t.children('div#Lesson');
+     		let html = `
+        <div class="row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;" >
+					<div class="col-10">
 						<div class="form-group">
 							<label for="txtLessonName">Lesson name</label>
-							<input name="chapter[${chapCount}]lessonName[]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
+							<input name="chapter[` +chapCount+`]lessonName[]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
 						</div>
 					
 						<div class="form-group">
 							<label for="txtLessonUrl">Video url</label>
-							<input name="chapter[${chapCount}]lessonUrl[]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
+							<input name="chapter[`+chapCount+`]lessonUrl[]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
 						</div>
 					</div>
-					<button class="btn btn-primary" id="removeLesson" onClick="return this.parentNode.remove()">
+          <div class="col-2 d-flex flex-column">
+					<a class="btn btn-primary" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">
 						<i class="fa fa-check" aria-hidden="true"></i>
 						Remove
-					</button>
-		'
-		lesson.innerHTML = html;
-		e.appendChild(lesson);
-	}
-	</script>
+					</a>
+          </div>
+          </div>
+		` ;
+        $(lesContainer).append(html);
+    })
+
+      var fieldSelect = $("#txtField");
+      var catSelect = $("#txtCat");
+      
+      $(fieldSelect).on("change", ()=>{
+        let idx = $(fieldSelect).prop('selectedIndex');
+        $(catSelect).empty();
+        
+        let t = [[{id:"1", name:"a"},{id:"2", name:"b"},{id:"3", name:"c"}],[{id:"4", name:"d"},{id:"5", name:"e"},{id:"6", name:"f"}]]
+        
+   
+        let cur = t[idx]
+        
+        for (let i = 0; i < cur.length; i++) {
+   $(catSelect).append(`<option value="`+cur[i].id+`">`+ cur[i].name+`</option>`);
+}
+        
+      });
+    
+});
+</script>
+	
   
-  
+ 
   
 {{/section}}
 
@@ -135,12 +148,22 @@
 			<input name="Price" type="text" class="form-control" id="txtPrice" autofocus placeholder="iPhone">
 		</div>
 	  
-	  <div class="form-group col-6">
-        <label for="txtCat">Catergories</label>
-		<select class="form-control" id=""txtCat name="Cat">
-			<option value="aaaa">aaaa</option>
+	  <div class="form-group col-3">
+        <label for="txtField">Field</label>
+		<select class="form-control" id="txtField" name="Field">
+				<option value="IT">IT</option>
+      	<option value="IT">Business</option>
 		</select>
-      </div>
+     </div>
+    <div class="form-group col-3">
+        <label for="txtCat">Catergories</label>
+		<select class="form-control" id="txtCat" name="Cat">
+			<option value="1">a</option>
+      				<option value="2">b</option>	
+      <option value="3">c</option>
+		</select>
+     </div>
+    
 	</div>
 	  
 	   <div class="form-group">
@@ -153,16 +176,16 @@
         <textarea id="txtFullDes" name="FullDes">Hello, TinyMCE!</textarea>
       </div>
 	  
-	  //Lesson
+	  
 	  <h4>Lesson content</h4>
 		<div id="Content">
 		 
 		</div>
 	  
-	   <button class="btn btn-primary" id="addChapterbtn">
+	   <a class="btn btn-primary" id="addChapterbtn">
         <i class="fa fa-check" aria-hidden="true"></i>
         Add
-      </button>
+      </a>
 	  
     </div>
 	
