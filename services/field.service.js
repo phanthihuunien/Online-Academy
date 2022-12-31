@@ -2,11 +2,11 @@ import db from '../utils/db.js';
 
 export default {
   async findAll() {
-    return db('fields');
+    return db('field');
   },
 
   async findById(id) {
-    const list = await db('fields').where('ID_FIELD', id);
+    const list = await db('field').where('ID_FIELD', id);
     if (list.length === 0)
       return null;
 
@@ -14,17 +14,17 @@ export default {
   },
 
   add(field) {
-    return db('fields').insert(field);
+    return db('field').insert(field,['ID_FIELD'])[0];
   },
 
   del(id) {
-    return db('fields').where('ID_FIELD', id).del();
+    return db('field').where('ID_FIELD', id).del();
   },
 
   patch(field) {
     const id = field.id;
     delete field.id;
 
-    return db('fields').where('ID_FIELD', id).update(field);
+    return db('field').where('ID_FIELD', id).update(field);
   }
 }

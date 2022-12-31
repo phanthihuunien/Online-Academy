@@ -111,14 +111,11 @@
       $(fieldSelect).on("change", ()=>{
         let idx = $(fieldSelect).prop('selectedIndex');
         $(catSelect).empty();
-        
-        let t = [[{id:"1", name:"a"},{id:"2", name:"b"},{id:"3", name:"c"}],[{id:"4", name:"d"},{id:"5", name:"e"},{id:"6", name:"f"}]]
-        
    
-        let cur = t[idx]
+        let cur = lcField_Catergories[idx]
         
         for (let i = 0; i < cur.length; i++) {
-   $(catSelect).append(`<option value="`+cur[i].id+`">`+ cur[i].name+`</option>`);
+   $(catSelect).append(`<option value="`+cur[i].ID_CATERGORY+`">`+ cur[i].name+`</option>`);
 }
         
       });
@@ -148,27 +145,40 @@
 			<input name="Price" type="text" class="form-control" id="txtPrice" autofocus placeholder="iPhone">
 		</div>
 	  
-	  <div class="form-group col-3">
+		<div class="form-group col-3">
         <label for="txtField">Field</label>
 		<select class="form-control" id="txtField" name="Field">
-				<option value="IT">IT</option>
-      	<option value="IT">Business</option>
+				
+      	{{#each lcField_Catergories}}
+			<option value={{field.ID_FIELD}}>{{field.name}}</option>
+		
+		{{/each}}
 		</select>
-     </div>
-    <div class="form-group col-3">
+		</div>
+		
+		<div class="form-group col-3">
         <label for="txtCat">Catergories</label>
 		<select class="form-control" id="txtCat" name="Cat">
-			<option value="1">a</option>
-      				<option value="2">b</option>	
-      <option value="3">c</option>
+		
+		{{#each lcField_Catergories[0]}}
+			<option value={{ID_CATERGORY}}>{{name}}</option>
+      			
+				
+		{{/each}}
+	
 		</select>
-     </div>
+		</div>
     
 	</div>
 	  
 	   <div class="form-group">
         <label for="fuMain">Image</label>
         <input type="file" multiple id="fuMain" name="fuMain">
+      </div>
+	  
+	  <div class="form-group">
+        <label for="txtShortDes">Short Description</label>
+        <textarea id="txtShortDes" name="ShortDes">Hello, TinyMCE!</textarea>
       </div>
 	  
       <div class="form-group">

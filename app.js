@@ -5,6 +5,10 @@ import numeral from 'numeral';
 
 import categoryService from '../services/category.service.js';
 import fieldService from '../services/field.service.js';
+import courseService from '../services/course.service.js';
+import chapterService from '../services/chapter.service.js';
+import lessonService from '../services/lesson.service.js';
+import multer from 'multer';
 
 const app = express();
 app.use(express.urlencoded({
@@ -61,19 +65,68 @@ app.get('/course/create', function (req, res) {
 
 app.post('/course/create', function (req, res) {
 	// insert course, return courseID
+	let data = req.body;
+	let course={}
+	course.ID_FIELD = data.Field;
+	course.ID_CATE = data.Cat;
+	course.ID_USER = req.session.authUser.ID_USER;
+	course.COURSENAME = data.CourseName;
+	course.LENGTHS = 0;
+	course.CREATEDATE = new Date(); 
+	course.LATUPDATE = new Date();
+	course.PRICE = data.Price;
+	course.VIEWED = 0;
+	course.DESCRIPTIONS = data.FullDes;
+	course.DISCOUNT = 0;
+	course.SHORTDES = data.ShortDes;
+	course.RATENUM = 0;
+	course.STUNUM = 0;
 		
-	// save image with courseID
-			
+		
+	let courseId = await courseService.add(course);
+	
 	req.body.chapter.forEach(chap =>{
 		// insert chap.name, courseID to db, return chapID
-	
+		let chapInsert = {}
+		chapInsert.ID_COURSE = courseId;
+		chapInsert.CHAPTERNAME = chap.name;
+		let chapId = await chapterService.add(chapInsert);
+		
 		let i = 0;
 		chap.lessonName.forEach(name=>{
 			// insert name, chap.lessonUrl[i] to db
+			let lesInsert = {};
+			lesInsert.ID_CHAPTER = chapId;
+			lesInsert.LESSONNAME = name;
+			lesInsert.URL = chap.lessonUrl[i];
+			lesInsert.REVIEW = 0;
 			
+			await lessonService.add(lesInsert);
+			i++;
 		});
 	});
-  res.render('createCourse');
+		
+	// save image with courseID
+	const storage = multer.diskStorage({
+		destination: function (req, file, cb) {
+		cb(null, './public/imgs');
+		},
+		filename: function (req, file, cb) {
+		cb(null, courseId + ".png");
+		}
+	});
+
+	const upload = multer({ storage: storage });
+  
+	upload.array('fuMain', 1)(req, res, function (err) {
+		if (err) {
+			console.error(err);
+		} else {		
+			res.render('createCourse');
+		}
+
+	})
+		
 });
 
 app.get('/', function (req, res) {
