@@ -6,6 +6,7 @@ import detailModel from "../models/detail.model.js"
 import userCourseModel from '../models/user-course.model.js'
 import userModel from '../models/user.model.js'
 import topCourseModel from '../models/topCourse.model.js'
+import chapterModel from '../models/chapter.model.js'
 import express from 'express';
 
 
@@ -18,7 +19,6 @@ router.get("/detail/:id", async function (req, res) {
     if (course === null) {
         return res.redirect("/");
     }
-
 
 
 
@@ -48,6 +48,15 @@ router.get("/detail/:id", async function (req, res) {
             feedback,
             user,
         });
+    }
+
+    const chapter = await chapterModel.findbyIDCourse(courseID);
+    let chapterdata = [];
+    for(let chapters of chapter){
+        let data = await chapterModel.findbyID(chapters.ID_CHAPTER);
+        chapterdata.push({
+            data,
+        })
     }
 
     let rate =0;
@@ -104,7 +113,8 @@ router.get("/detail/:id", async function (req, res) {
         top5,
         rate,
         instructor,
-        num
+        num,
+        chapterdata,
 
     });
 });
@@ -118,8 +128,6 @@ router.get("/detail/:id_course/:id_detail", async function (req, res) {
     }
     res.render('vwCourse/lesson', {
         detail
-
-
     });
 });
 

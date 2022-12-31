@@ -1,6 +1,5 @@
 import express from 'express';
 
-
 import bcrypt from 'bcrypt';
 import userModel from '../models/user.model.js'
 
@@ -22,7 +21,7 @@ router.post("/profile", async function (req, res) {
 
     try {
 
-        //get data from user input
+
         const hashedPass = bcrypt.hashSync(req.body.PASSWORD, 10);
 
 
@@ -30,7 +29,6 @@ router.post("/profile", async function (req, res) {
             ID_USER: req.body.ID_USER,
             USERNAME: req.body.USERNAME,
             PASSWORD: hashedPass,
-            //DOB: convertedDOB,
             FULLNAME: req.body.FULLNAME,
             EMAIL: req.body.EMAIL,
             TYPE: 1,
@@ -42,15 +40,14 @@ router.post("/profile", async function (req, res) {
 
 
         const ret = bcrypt.compareSync(req.body.OldPassword, user.PASSWORD);
-        //const ret = (req.body.OldPassword === user.PASSWORD);
+
 
 
 
         if (ret) {
-            //update db data
+
             await userModel.update(newUser);
 
-            //rerender view
             res.render("vwAccount/profile", {
                 users: newUser,
                 err_message: "Update Successfull!!!",
@@ -58,13 +55,13 @@ router.post("/profile", async function (req, res) {
         } else {
             res.render("vwAccount/profile", {
                 // userdata: req.session.loggedinUser,  sesson cua log in , đợi có hàm log in
-                err_message: "Wrong password, please type again!!!",
+                err_message: "Incorrect password!!!",
             });
         }
     } catch (error) {
         res.render("vwAccount/profile", {
           //  userdata: req.session.loggedinUser, như trên
-            err_message: "Somethings wrong, please check again!!!",
+            err_message: " Sorry! pls check again",
         });
         console.log(error);
     }
