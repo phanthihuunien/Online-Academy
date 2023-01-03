@@ -31,6 +31,7 @@ create table oadb.course
 (
     ID_COURSE    int           not null auto_increment
         primary key,
+    ID_FIELD	 int		null, 
     ID_CATE      int           null,
     ID_USER      int           null,
     COURSENAME   varchar(200)  null,
@@ -47,7 +48,9 @@ create table oadb.course
     constraint FK_RELATIONSHIP_4
         foreign key (ID_CATE) references oadb.category (ID_CATE),
     constraint FK_RELATIONSHIP_7
-        foreign key (ID_USER) references oadb.users (ID_USER)
+        foreign key (ID_USER) references oadb.users (ID_USER),
+	constraint FK_RELATIONSHIP_11
+        foreign key (ID_FIELD) references oadb.field (ID_FIELD)
 );
 
 create table oadb.chapter
