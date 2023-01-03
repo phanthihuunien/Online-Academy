@@ -1,13 +1,13 @@
 create table oadb.field
 (
-    ID_FIELD  int          not null
+    ID_FIELD  int          not null  auto_increment
         primary key,
     FIELDNAME varchar(500) null
 );
 
 create table oadb.category
 (
-    ID_CATE  int          not null
+    ID_CATE  int          not null auto_increment
         primary key,
     CATENAME varchar(100) null,
     ID_FIELD int          null,
@@ -17,7 +17,7 @@ create table oadb.category
 
 create table oadb.users
 (
-    ID_USER  int          not null
+    ID_USER  int          not null  auto_increment
         primary key,
     USERNAME varchar(20)  null,
     EMAIL    varchar(50)  null,
@@ -29,7 +29,7 @@ create table oadb.users
 
 create table oadb.course
 (
-    ID_COURSE    int           not null
+    ID_COURSE    int           not null auto_increment
         primary key,
     ID_CATE      int           null,
     ID_USER      int           null,
@@ -74,7 +74,7 @@ create table oadb.lesson
 
 create table oadb.user_course
 (
-    ID_USER_COURSE int          not null
+    ID_USER_COURSE int          not null auto_increment
         primary key,
     ID_COURSE      int          null,
     ID_USER        int          null,
@@ -89,7 +89,7 @@ create table oadb.user_course
 
 create table oadb.wishlist
 (
-    ID_WISHLIST int not null
+    ID_WISHLIST int not null auto_increment
         primary key,
     ID_USER     int null,
     ID_COURSE   int null,
