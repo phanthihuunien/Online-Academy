@@ -1,7 +1,7 @@
 import db from '../utils/db.js';
 
 export default {
-  async findAll() {
+  findAll() {
     return db('course');
   },
 
@@ -11,6 +11,14 @@ export default {
       return null;
 
     return list[0];
+  },
+  
+    async findAllByFieldId(id) {
+    const list = await db('course').where('ID_FIELD', id);
+    if (list.length === 0)
+      return null;
+
+    return list;
   },
 
   add(course) {

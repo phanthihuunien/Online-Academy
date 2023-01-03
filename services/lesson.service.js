@@ -1,16 +1,24 @@
 import db from '../utils/db.js';
 
 export default {
-  async findAll() {
+   findAll() {
     return db('lesson');
   },
 
-  async findById(id) {
+   findById(id) {
     const list = await db('lesson').where('ID_LESSON', id);
     if (list.length === 0)
       return null;
 
     return list[0];
+  },
+
+ findAllByChapterId(id) {
+    const list = await db('lesson').where('ID_CHAPTER', id);
+    if (list.length === 0)
+      return null;
+
+    return list;
   },
 
   add(lesson) {

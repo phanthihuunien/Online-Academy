@@ -48,7 +48,7 @@ create table oadb.course
     constraint FK_RELATIONSHIP_4
         foreign key (ID_CATE) references oadb.category (ID_CATE),
 		constraint FK_RELATIONSHIP_20
-        foreign key (ID_FIELD) references oadb.category (ID_FIELD),
+        foreign key (ID_FIELD) references oadb.field (ID_FIELD),
     constraint FK_RELATIONSHIP_7
         foreign key (ID_USER) references oadb.users (ID_USER)
 );

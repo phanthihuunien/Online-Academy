@@ -9,6 +9,7 @@ import courseService from '../services/course.service.js';
 import chapterService from '../services/chapter.service.js';
 import lessonService from '../services/lesson.service.js';
 import multer from 'multer';
+import moment from 'moment';
 
 const app = express();
 app.use(express.urlencoded({
@@ -48,7 +49,7 @@ app.use(async function (req, res, next) {
 	  
 	  let fields = await fieldService.findAll();
 	  fields.forEach(field => {
-		  let catergories = await catService.findById(field.ID_FIELD);
+		  let catergories = await catService.findAllByFieldId(field.ID_FIELD);
 		  
 		  temp.field = field;
 		  temp.catergories = catergories;
@@ -58,52 +59,165 @@ app.use(async function (req, res, next) {
 
     next();
   });
+  
+  app.post('/course/edit', async function (req, res) {
+	 const id = req.query.id || 0;
+	 let course = await courseService.findById(id);
+	 const user = req.session.authUser;
+	 if(user.type == 3 || user.ID_USER == course.ID_USER){
+		 
+		 // save image with courseID
+		const storage = multer.diskStorage({
+			destination: function (req, file, cb) {
+			cb(null, './public/imgs');
+			},
+			filename: function (req, file, cb) {
+			cb(null, courseId + "_thumbnail.png");
+			}
+		});
+
+		const upload = multer({ storage: storage });
+	  
+		upload.array('fuMain', 1)(req, res, function (err) {
+			if (err) {
+				console.error(err);
+			} else {		
+				//update Course
+				let data = req.body;
+				let course_update={
+					id = id;
+					ID_CATE = data.Cat;
+					ID_USER = course.ID_USER;
+					COURSENAME = data.CourseName;
+					LENGTHS = course.LENGTHS;
+					CREATEDATE = course.CREATEDATE; 
+					LATUPDATE = moment().format('YYYY-MM-DD');
+					PRICE = data.Price;
+					VIEWED = course.VIEWED;
+					DESCRIPTIONS = data.FullDes;
+					DISCOUNT = course.DISCOUNT;
+					SHORTDES = data.ShortDes;
+					RATENUM = course.RATENUM;
+					STUNUM = course.STUNUM;	
+				}
+				
+				await courseService.patch(course_update);
+				
+				//delete chapter and lesson
+				const chaplist = await chapterService.findAllByCourseID(id);
+				chaplist.forEach(chap=>{
+					let lessonlist = await lessonService.findAllByChapterId(chap.ID_CHAPTER);
+					lessonlist.forEach(lesson => {
+						await lessonService.del(lesson.ID_LESSON);
+					})
+					await chapterService.del(chap.ID_CHAPTER);
+				})
+				
+				//re-insert chapter and lesson
+				let chapters = req.body.chapter
+				chapters.forEach(chap =>{
+					// insert chap.name, courseID to db, return chapID
+					if(chap){
+						let chapInsert = {}
+						chapInsert.ID_COURSE = id;
+						chapInsert.CHAPTERNAME = chap.name;
+						let chapId = await chapterService.add(chapInsert);
+						
+						let i = 0;
+						chap.lessonName.forEach(name=>{
+							// insert name, chap.lessonUrl[i] to db
+							
+							let lesInsert = {};
+							lesInsert.ID_CHAPTER = chapId;
+							lesInsert.LESSONNAME = name;
+							lesInsert.URL = chap.lessonUrl[i];
+							lesInsert.REVIEW = 0;
+							
+							await lessonService.add(lesInsert);
+							i++;
+							
+						});
+					}
+					
+				});
+			
+				return res.redirect('/account/mycourse/');
+			}
+
+		})
+		 
+		 
+		 
+		
+	 }
+	 
+	return res.redirect(req.originalUrl);
+});
+  
+app.get('/course/edit',async function (req, res) {
+	 const id = req.query.id || 0;
+	 let course = await courseService.findById(id);
+	 const user = req.session.authUser;
+	 if(user.type == 3 || user.ID_USER == course.ID_USER){
+		return res.render('vwCourse/editCourse',
+		  {
+			  course: course
+		  }
+		);
+	 }
+	 
+	return res.redirect(req.originalUrl);
+});
 
 app.get('/course/create', function (req, res) {
-  res.render('createCourse');
+  return res.render('vwCourse/createCourse');
 });
 
 app.post('/course/create', function (req, res) {
 	// insert course, return courseID
-	let data = req.body;
-	let course={}
-	course.ID_FIELD = data.Field;
-	course.ID_CATE = data.Cat;
-	course.ID_USER = req.session.authUser.ID_USER;
-	course.COURSENAME = data.CourseName;
-	course.LENGTHS = 0;
-	course.CREATEDATE = new Date(); 
-	course.LATUPDATE = new Date();
-	course.PRICE = data.Price;
-	course.VIEWED = 0;
-	course.DESCRIPTIONS = data.FullDes;
-	course.DISCOUNT = 0;
-	course.SHORTDES = data.ShortDes;
-	course.RATENUM = 0;
-	course.STUNUM = 0;
+	const data = req.body;
+	let course={
+		ID_CATE = data.Cat;
+		ID_USER = req.session.authUser.ID_USER;
+		COURSENAME = data.CourseName;
+		LENGTHS = 0;
+		CREATEDATE = new Date(); 
+		LATUPDATE = new Date();
+		PRICE = data.Price;
+		VIEWED = 0;
+		DESCRIPTIONS = data.FullDes;
+		DISCOUNT = 0;
+		SHORTDES = data.ShortDes;
+		RATENUM = 0;
+		STUNUM = 0;	
+	}
 		
-		
-	let courseId = await courseService.add(course);
-	
-	req.body.chapter.forEach(chap =>{
+	const courseId = await courseService.add(course);
+	const chapters = req.body.chapter;
+	chapters.forEach(chap =>{
 		// insert chap.name, courseID to db, return chapID
-		let chapInsert = {}
-		chapInsert.ID_COURSE = courseId;
-		chapInsert.CHAPTERNAME = chap.name;
-		let chapId = await chapterService.add(chapInsert);
-		
-		let i = 0;
-		chap.lessonName.forEach(name=>{
-			// insert name, chap.lessonUrl[i] to db
-			let lesInsert = {};
-			lesInsert.ID_CHAPTER = chapId;
-			lesInsert.LESSONNAME = name;
-			lesInsert.URL = chap.lessonUrl[i];
-			lesInsert.REVIEW = 0;
+		if(chap){
+			let chapInsert = {}
+			chapInsert.ID_COURSE = courseId;
+			chapInsert.CHAPTERNAME = chap.name;
+			let chapId = await chapterService.add(chapInsert);
 			
-			await lessonService.add(lesInsert);
-			i++;
-		});
+			let i = 0;
+			chap.lessonName.forEach(name=>{
+				// insert name, chap.lessonUrl[i] to db
+				
+				let lesInsert = {};
+				lesInsert.ID_CHAPTER = chapId;
+				lesInsert.LESSONNAME = name;
+				lesInsert.URL = chap.lessonUrl[i];
+				lesInsert.REVIEW = 0;
+				
+				await lessonService.add(lesInsert);
+				i++;
+				
+			});
+		}
+		
 	});
 		
 	// save image with courseID
@@ -112,7 +226,7 @@ app.post('/course/create', function (req, res) {
 		cb(null, './public/imgs');
 		},
 		filename: function (req, file, cb) {
-		cb(null, courseId + ".png");
+		cb(null, courseId + "_thumbnail.png");
 		}
 	});
 
@@ -122,11 +236,12 @@ app.post('/course/create', function (req, res) {
 		if (err) {
 			console.error(err);
 		} else {		
-			res.render('createCourse');
+			return res.redirect('/account/mycourse/');
 		}
 
 	})
-		
+	
+	
 });
 
 app.get('/', function (req, res) {

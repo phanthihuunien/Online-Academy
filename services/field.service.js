@@ -1,7 +1,7 @@
 import db from '../utils/db.js';
 
 export default {
-  async findAll() {
+  findAll() {
     return db('field');
   },
 
@@ -12,6 +12,7 @@ export default {
 
     return list[0];
   },
+
 
   add(field) {
     return db('field').insert(field,['ID_FIELD'])[0];

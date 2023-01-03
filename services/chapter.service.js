@@ -12,6 +12,14 @@ export default {
 
     return list[0];
   },
+  
+  async findAllByCourseId(id) {
+    const list = await db('chapter').where('ID_COURSE', id);
+    if (list.length === 0)
+      return null;
+
+    return list;
+  },
 
   add(chapter) {
     return db('chapter').insert(chapter, ['ID_CHAPTER'])[0];
