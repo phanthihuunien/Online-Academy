@@ -25,7 +25,10 @@ app.engine('hbs', engine({
     section: hbs_sections(),
     format_number(val) {
       return numeral(val).format('0,0');
-    }
+    },
+	is_equal(val1, val2){
+		return val1 === val2;
+	}
   }
 }));
 app.set('view engine', 'hbs');
@@ -85,20 +88,21 @@ app.use(async function (req, res, next) {
 				//update Course
 				let data = req.body;
 				let course_update={
-					id = id;
-					ID_CATE = data.Cat;
-					ID_USER = course.ID_USER;
-					COURSENAME = data.CourseName;
-					LENGTHS = course.LENGTHS;
-					CREATEDATE = course.CREATEDATE; 
-					LATUPDATE = moment().format('YYYY-MM-DD');
-					PRICE = data.Price;
-					VIEWED = course.VIEWED;
-					DESCRIPTIONS = data.FullDes;
-					DISCOUNT = course.DISCOUNT;
-					SHORTDES = data.ShortDes;
-					RATENUM = course.RATENUM;
-					STUNUM = course.STUNUM;	
+					id = id,
+					ID_FIELD = data.Field,
+					ID_CATE = data.Cat,
+					ID_USER = course.ID_USER,
+					COURSENAME = data.CourseName,
+					LENGTHS = course.LENGTHS,
+					CREATEDATE = course.CREATEDATE, 
+					LATUPDATE = moment().format('YYYY-MM-DD'),
+					PRICE = data.Price,
+					VIEWED = course.VIEWED,
+					DESCRIPTIONS = data.FullDes,
+					DISCOUNT = course.DISCOUNT,
+					SHORTDES = data.ShortDes,
+					RATENUM = course.RATENUM,
+					STUNUM = course.STUNUM;,
 				}
 				
 				await courseService.patch(course_update);
@@ -157,11 +161,24 @@ app.use(async function (req, res, next) {
 app.get('/course/edit',async function (req, res) {
 	 const id = req.query.id || 0;
 	 let course = await courseService.findById(id);
+	
 	 const user = req.session.authUser;
 	 if(user.type == 3 || user.ID_USER == course.ID_USER){
+		let list = [];
+		let chapList = await chapterService.findAllByCourseID(id);
+		chaplist.forEach(chap => {
+			let lessonlist = await lessonService.findAllByChapterId(chap.ID_CHAPTER); 
+			let temp ={
+				 chapter: chap,
+				 lessons: lessonlist,
+			};
+			list.push(temp);
+		});
 		return res.render('vwCourse/editCourse',
 		  {
-			  course: course
+			  course: course,
+			  data: list,
+			  curcounter: chapList.length + 1;
 		  }
 		);
 	 }
@@ -177,19 +194,20 @@ app.post('/course/create', function (req, res) {
 	// insert course, return courseID
 	const data = req.body;
 	let course={
-		ID_CATE = data.Cat;
-		ID_USER = req.session.authUser.ID_USER;
-		COURSENAME = data.CourseName;
-		LENGTHS = 0;
-		CREATEDATE = new Date(); 
-		LATUPDATE = new Date();
-		PRICE = data.Price;
-		VIEWED = 0;
-		DESCRIPTIONS = data.FullDes;
-		DISCOUNT = 0;
-		SHORTDES = data.ShortDes;
-		RATENUM = 0;
-		STUNUM = 0;	
+		ID_FIELD = data.Field,
+		ID_CATE = data.Cat,
+		ID_USER = req.session.authUser.ID_USER,
+		COURSENAME = data.CourseName,
+		LENGTHS = 0,
+		CREATEDATE = moment().format('YYYY-MM-DD'), 
+		LATUPDATE = moment().format('YYYY-MM-DD'),
+		PRICE = data.Price,
+		VIEWED = 0,
+		DESCRIPTIONS = data.FullDes,
+		DISCOUNT = 0,
+		SHORTDES = data.ShortDes,
+		RATENUM = 0,
+		STUNUM = 0,
 	}
 		
 	const courseId = await courseService.add(course);
@@ -197,20 +215,24 @@ app.post('/course/create', function (req, res) {
 	chapters.forEach(chap =>{
 		// insert chap.name, courseID to db, return chapID
 		if(chap){
-			let chapInsert = {}
-			chapInsert.ID_COURSE = courseId;
-			chapInsert.CHAPTERNAME = chap.name;
+			let chapInsert = {
+				ID_COURSE = courseId;
+				CHAPTERNAME = chap.name;
+			}
+			
 			let chapId = await chapterService.add(chapInsert);
 			
 			let i = 0;
 			chap.lessonName.forEach(name=>{
 				// insert name, chap.lessonUrl[i] to db
 				
-				let lesInsert = {};
-				lesInsert.ID_CHAPTER = chapId;
-				lesInsert.LESSONNAME = name;
-				lesInsert.URL = chap.lessonUrl[i];
-				lesInsert.REVIEW = 0;
+				let lesInsert = {
+					ID_CHAPTER = chapId;
+					LESSONNAME = name;
+					URL = chap.lessonUrl[i];
+					REVIEW = 0;	
+				};
+				
 				
 				await lessonService.add(lesInsert);
 				i++;
