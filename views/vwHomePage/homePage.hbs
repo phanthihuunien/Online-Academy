@@ -248,77 +248,17 @@
     <div class="card w-100">
         <h4 class="card-header">Most trending field in this week</h4>
         <div class="card-body d-flex justify-content-between">
+            {{#each this.mostTrendingFields}}
             <div class="col-3">
                 <div class="row font-weight-bold mg-3">
-                    Development
+                    {{field.FIELDNAME}}
                 </div>
                 <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Python</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Web Dev</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">AI-Machine Learning</a>
-                    <div class="text-muted">36,000,000 students</div>
+                    <a class="row text-primary font-weight-bold">{{mostTrendingCate.CATENAME}}</a>
+                    <div class="text-muted">{{mostTrendingCate.TOTALSTUNUM}} students</div>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="row font-weight-bold mg-3">
-                    Development
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Python</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Web Dev</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">AI-Machine Learning</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="row font-weight-bold mg-3">
-                    Development
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Python</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Web Dev</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">AI-Machine Learning</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="row font-weight-bold mg-3">
-                    Development
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Python</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">Web Dev</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-                <div class="m-3">
-                    <a class="row text-primary font-weight-bold">AI-Machine Learning</a>
-                    <div class="text-muted">36,000,000 students</div>
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
 
