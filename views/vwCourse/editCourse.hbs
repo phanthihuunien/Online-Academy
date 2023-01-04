@@ -150,7 +150,7 @@
 				<select class="form-control" id="txtField" name="Field">
 						
 					{{#each lcField_Catergories}}
-					<option value={{field.ID_FIELD}} {{#if (is_equal field.ID_FIELD course.ID_FIELD)}}selected {{/if}}>{{field.name}}</option>
+					<option value={{this.field.ID_FIELD}} {{#if (is_equal this.field.ID_FIELD course.ID_FIELD)}}selected {{/if}}>{{this.field.name}}</option>
 				
 					{{/each}}
 				</select>
@@ -160,8 +160,8 @@
 				<label for="txtCat">Catergories</label>
 				<select class="form-control" id="txtCat" name="Cat">
 			
-					{{#each lcField_Catergories[0]}}
-					<option value={{ID_CATE}} {{#if (is_equal ID_CATE course.ID_CATE)}}selected {{/if}}>{{name}}</option>
+					{{#each curCatList}}
+					<option value={{this.ID_CATE}} {{#if (is_equal this.ID_CATE course.ID_CATE)}}selected {{/if}}>{{this.name}}</option>
 							
 							
 					{{/each}}

@@ -7,11 +7,19 @@ export default {
   },
 
   async findById(id) {
-    const list = await db('category').where('CatID', id);
+    const list = await db('category').where('ID_CATE', id);
     if (list.length === 0)
       return null;
 
     return list[0];
+  },
+  
+   async findAllByFieldId(id) {
+    const list = await db('category').where('ID_FIELD', id);
+    if (list.length === 0)
+      return null;
+
+    return list;
   },
 
   add(newCategory) {
@@ -20,13 +28,13 @@ export default {
   },
 
   del(id) {
-    return db('category').where('CatID', id).del();
+    return db('category').where('ID_CATE', id).del();
   },
 
   patch(category) {
-    const id = category.CatID;
-    delete category.CatID;
+    const id = category.ID_CATE;
+    delete category.ID_CATE;
 
-    return db('category').where('CatID', id).update(category);
+    return db('category').where('ID_CATE', id).update(category);
   }
 }

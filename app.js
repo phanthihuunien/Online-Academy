@@ -161,7 +161,7 @@ app.use(async function (req, res, next) {
 app.get('/course/edit',async function (req, res) {
 	 const id = req.query.id || 0;
 	 let course = await courseService.findById(id);
-	
+	let curCatList = await catService.findAllByFieldId(course.ID_FIELD);
 	 const user = req.session.authUser;
 	 if(user.type == 3 || user.ID_USER == course.ID_USER){
 		let list = [];
@@ -177,6 +177,7 @@ app.get('/course/edit',async function (req, res) {
 		return res.render('vwCourse/editCourse',
 		  {
 			  course: course,
+			  curCatList: curCatList,
 			  data: list,
 			  curcounter: chapList.length + 1;
 		  }

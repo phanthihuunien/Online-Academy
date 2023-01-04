@@ -21,6 +21,14 @@ export default {
     return list;
   },
 
+async findAllByCatergoryId(id) {
+    const list = await db('course').where('ID_CATE', id);
+    if (list.length === 0)
+      return null;
+
+    return list;
+  },
+  
   add(course) {
     return db('course').insert(course, ['ID_COURSE'])[0];
   },
