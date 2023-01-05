@@ -30,19 +30,49 @@
                 {{else}}
                     <p class="card-text"><span class="text" style="font-size: 25px">{{format_number this.course.PRICE}} VND</span></p>
                 {{/if}}
-                <p>
+                {{#if isLogin}}
+                {{#if isBought}}
+                    <div class="input-group-append">
+                         <a href="#">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-list" aria-hidden="true"></i>
+                                        Learn!
+                            </button>
+                        </a>
+                    </div>
+                {{else}}
+                        {{#if isInstructor}}
+                                <div class="input-group mb-3">
+                                    <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
+
+                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
+                                       role="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        Edit
+                                    </a>
+                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
+                                       role="button">
+                                        <i class="fa fa-play" aria-hidden="true"></i>
+                                        Play
+                                    </a>
+                                </div>
+                        {{else}}
+                                <p>
                 <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                 </p>
-                <p>
-                    <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Buy now</a>
+                                <p>
+                    <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
                 </p>
+                        {{/if}}
+                {{/if}}
+                {{/if}}
 
             </div>
 
         </div>
         <div class="row" style="margin-top: 20px" style="border-top-style:solid">
             <div class="col-5">
-                <h5 >What you'll learn</h5>
+                <h5 >DESCRIPTION</h5>
                 <div class="row" >
 
 
@@ -82,8 +112,8 @@
                     <a  href="#" ><span style="color: plum"  >Expand all sections</span></a>
                 </div>
 
-                {{#each chapterdata as |chapterdata|}}
-                    {{chapterdata}}
+                {{#each chapterdata }}
+
 
                 <div id="accordion" >
 
@@ -103,10 +133,8 @@
 
 
                                 <div class="list-group" >
-
-                                    {{#each ../lessondata as |lessondata|}}
-                                        {{lessondata}}
-                                        <a href="/category/course/detail/{{this.course.ID_COURSE}}/1" ><i class="fa fa-play" aria-hidden="true"></i> {{les.LESSONNAME}}</a>
+                                    {{#each lessondata as |lessondata|}}
+                                           <a href="#">{{lestt.LESSONNAME}} </a>
                                     {{/each}}
 
 

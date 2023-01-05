@@ -18,7 +18,7 @@ router.get("/", async function (req, res) {
     for (let item of myCourse) {
         //get information of instructor and course to show in quick view
         let course = await courseModel.findbyID(item.ID_COURSE);
-        //let instructor = await userModel.findbyID(course.ID_USER);
+        let instructor = await userModel.findbyID(course.ID_USER);
 
         //calculate discount price
         let realPrice = 0;
@@ -35,7 +35,7 @@ router.get("/", async function (req, res) {
         items.push({
 
             course,
-            // instructor,
+            instructor,
             realPrice,
             isDiscount,
         });

@@ -14,7 +14,7 @@ export default {
 
 
     },
-    async findbyIDChapter(id) {
+   async findbyIDChapter(id) {
         const list = await db('lesson').where('ID_CHAPTER', id);
 
         if (list.length === 0) {
@@ -26,7 +26,6 @@ export default {
 
 
         return list;
-
 
     },
 }

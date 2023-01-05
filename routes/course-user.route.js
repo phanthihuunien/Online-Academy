@@ -22,8 +22,6 @@ router.get("/detail/:id", async function (req, res) {
     }
 
 
-
-
     //calculate discount price
     let realPrice = 0;
     let isDiscount = true;
@@ -53,25 +51,59 @@ router.get("/detail/:id", async function (req, res) {
     }
 
 
+
+
+
+
     // display chapter
     const chapter = await chapterModel.findbyIDCourse(courseID);
     let chapterdata = [];
     let lessondata = [];
+    let chapternum=0;
+    let lexxx =[];
+    let data = []
     for(let chapters of chapter) {
-        let data = await chapterModel.findbyID(chapters.ID_CHAPTER);
-        const lesson = await lessonModel.findbyIDChapter(chapters.ID_CHAPTER);
-        for(let lessons of lesson){
-            let les = await  lessonModel.findbyID(lessons.ID_LESSON);
-            lessondata.push({
-                les,
-            })
-        }
+             data = await chapterModel.findbyID(chapters.ID_CHAPTER);
         chapterdata.push({
             data,
-            lessondata,
         })
 
+        chapternum = chapters.ID_CHAPTER;
+        let lesson = await lessonModel.findbyIDChapter(chapternum);
+        lexxx.push(
+            lesson,
+        );
+
+        }
+
+    let numles =0;
+    for( let lessons of lexxx){
+        let datales  = lexxx[numles];
+
+        for(let les of datales){
+            let lestt = await lessonModel.findbyID(les.ID_LESSON);
+
+            lessondata.push({
+                lestt,
+            });
+
+
+        }
+
+
+      //  data['LESSON'] = lessondata;
+
+        numles++;
+
+
+
+
+
+
+
+
     }
+
 
 
 
@@ -117,6 +149,15 @@ router.get("/detail/:id", async function (req, res) {
         top5.push({top555})
     }
 
+    //kiểm tra xem loggin user đã mua khóa học  hay chưa
+    let isBought = false;
+    // if (req.session.isLogin) {
+    //     const order = await findbyUserCourse(courseID,req.session.loggedinUser.ID_USER);
+    //     if (order.length === 0) {
+    //     } else {
+    //         isBought = true;
+    //     }
+    // }
 
 
 
@@ -135,6 +176,9 @@ router.get("/detail/:id", async function (req, res) {
         instructor,
         num,
         chapterdata,
+        lessondata,
+        isBought,
+      //  isLogin: req.session.isLogin,
 
 
 
@@ -153,6 +197,7 @@ router.get("/detail/:id_course/:id_detail", async function (req, res) {
         detail
     });
 });
+
 
 
 

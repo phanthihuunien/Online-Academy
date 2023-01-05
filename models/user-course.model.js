@@ -6,11 +6,19 @@ export default{
 
 
     },
+
     async findAllbyUserID(id){
         const list = await db('user_course').where('ID_USER',id);
         return list;
     },
-
+    async findbyUserCourse(idCourse,idUser){
+        const list = await db('user_course').where('ID_COURSE',idCourse)
+            .where('ID_USER',idUser);
+        if(list.length == 0){
+            return null;
+        }
+        return list[0];
+    },
 
 
 }
