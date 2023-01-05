@@ -52,7 +52,8 @@
 
 
                 </div>
-                <h5>Instructor</h5>
+                
+                <h5 style="margin-top: 20px;">Instructor</h5>
                 <div class="row" style="margin-top: 20px">
 
                     <p>
@@ -81,34 +82,47 @@
                     <a  href="#" ><span style="color: plum"  >Expand all sections</span></a>
                 </div>
 
+                {{#each chapterdata as |chapterdata|}}
+                    {{chapterdata}}
 
                 <div id="accordion" >
-                    {{#each chapterdata}}
+
                     <div class="card">
-                        <div class="card-header" id={{data.ID_CHAPTER}}>
+                        <div class="card-header" id="heading{{data.ID_CHAPTER}}">
                             <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="font-size: 15px">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{data.ID_CHAPTER}}" aria-expanded="true" aria-controls="collapse{{data.IDCHAPTER}}" style="font-size: 15px">
                                     {{data.CHAPTERNAME}}
                                 </button>
                             </h5>
                         </div>
 
-                        <div id="collapseOne" class="collapse show" aria-labelledby={{data.ID_CHAPTER}} data-parent="#accordion">
+
+
+                        <div id="collapse{{data.ID_CHAPTER}}" class="collapse show" aria-labelledby="heading{{data.IDCHAPTER}}" data-parent="#accordion">
                             <div class="card-body">
+
+
                                 <div class="list-group" >
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/1" ><i class="fa fa-play" aria-hidden="true"></i> preview INTRODUCTION</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/2" ><i class="fa fa-play" aria-hidden="true"></i> preview LESSON 1</a>
-                                    <a href="/category/course/detail/{{this.course.ID_COURSE}}/3" ><i class="fa fa-play" aria-hidden="true"></i>  preview LESSON 2</a>
+
+                                    {{#each ../lessondata as |lessondata|}}
+                                        {{lessondata}}
+                                        <a href="/category/course/detail/{{this.course.ID_COURSE}}/1" ><i class="fa fa-play" aria-hidden="true"></i> {{les.LESSONNAME}}</a>
+                                    {{/each}}
+
+
 
                                 </div>
+
                             </div>
                         </div>
+
+
                     </div>
-                    {{/each}}
+
 
 
                 </div>
-
+                {{/each }}
 
 
 

@@ -7,6 +7,7 @@ import userCourseModel from '../models/user-course.model.js'
 import userModel from '../models/user.model.js'
 import topCourseModel from '../models/topCourse.model.js'
 import chapterModel from '../models/chapter.model.js'
+import lessonModel from '../models/lesson.model.js'
 import express from 'express';
 
 
@@ -35,11 +36,12 @@ router.get("/detail/:id", async function (req, res) {
         realPrice = price - (price * sale) / 100;
     }
 
+
+
+    //display feebback
     const usercourse = await userCourseModel.findAllbyCourseID(
         course.ID_COURSE
     );
-
-
     let feedbackdata = [];
     for (let feedback of usercourse) {
         let user = await userModel.findbyID(feedback.ID_USER);
@@ -50,15 +52,34 @@ router.get("/detail/:id", async function (req, res) {
         });
     }
 
+
+    // display chapter
     const chapter = await chapterModel.findbyIDCourse(courseID);
     let chapterdata = [];
-    for(let chapters of chapter){
+    let lessondata = [];
+    for(let chapters of chapter) {
         let data = await chapterModel.findbyID(chapters.ID_CHAPTER);
+        const lesson = await lessonModel.findbyIDChapter(chapters.ID_CHAPTER);
+        for(let lessons of lesson){
+            let les = await  lessonModel.findbyID(lessons.ID_LESSON);
+            lessondata.push({
+                les,
+            })
+        }
         chapterdata.push({
             data,
+            lessondata,
         })
+
     }
 
+
+
+
+
+
+
+//display rate and ratenum
     let rate =0;
     let num =0;
 
@@ -77,7 +98,7 @@ router.get("/detail/:id", async function (req, res) {
 
 
 
-
+//find instructor
     let instructor = await userModel.findbyID(course.ID_USER);
 
 
@@ -87,7 +108,7 @@ router.get("/detail/:id", async function (req, res) {
 
 
 
-
+//display top 5 course
     let top5 = [];
 
     const top55 = await topCourseModel.findTop(course.ID_CATE,courseID);
@@ -103,8 +124,7 @@ router.get("/detail/:id", async function (req, res) {
 
 
 
-
-
+//render view
     res.render('vwCourse/detail', {
         course:course,
         realPrice,
@@ -115,6 +135,9 @@ router.get("/detail/:id", async function (req, res) {
         instructor,
         num,
         chapterdata,
+
+
+
 
     });
 });
