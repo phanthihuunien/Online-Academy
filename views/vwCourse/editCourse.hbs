@@ -24,6 +24,14 @@
         'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
       ],
     });
+	tinymce.init({
+      selector: '#txtShortDes',
+      menubar: false,
+      plugins: 'paste image link autolink lists table media',
+      toolbar: [
+        'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+      ],
+    });
   </script>
 
   <script>
@@ -33,6 +41,14 @@
       theme: 'fa4',
       allowedFileExtensions: ['png'],
     });
+	        $('#fuThumbnail').fileinput({
+      dropZoneEnabled: false,
+      showUpload: false,
+      maxFileCount: 1,
+      theme: 'fa4',
+      allowedFileExtensions: ['png'],
+    });
+
   </script>
   
   
@@ -50,7 +66,7 @@
 			<div class="row d-flex align-items-center mt-3" >
 				<div class="form-group col-10">
 					<label for="txtCourseName">Chapter name</label>
-					<input name="chapter[`+count+`]name" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
+					<input name="chapter[`+count+`][name]" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
 				</div>
 				<div class="col-2 d-flex flex-column">
           <a class="btn btn-danger py-1" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
@@ -86,15 +102,15 @@
 					<div class="col-10">
 						<div class="form-group">
 							<label for="txtLessonName">Lesson name</label>
-							<input name="chapter[` +chapCount+`]lessonName[]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
+							<input name="chapter[` +chapCount+`][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
 						</div>
 					
 						<div class="form-group">
 							<label for="txtLessonUrl">Video url</label>
-							<input name="chapter[`+chapCount+`]lessonUrl[]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
+							<input name="chapter[`+chapCount+`][lessonUrl][]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
 						</div>
 					</div>
-          <div class="col-2 d-flex flex-column">
+          <div class="col-1 d-flex flex-column">
 					<a class="btn btn-danger" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">
 						
 						Remove
@@ -105,19 +121,26 @@
         $(lesContainer).append(html);
     })
 
-      var fieldSelect = $("#txtField");
-      var catSelect = $("#txtCat");
-      
-      $(fieldSelect).on("change", ()=>{
-        let idx = $(fieldSelect).prop('selectedIndex');
-        $(catSelect).empty();
-   
-        let cur = lcField_Catergories[idx]
+          $("#txtField").on("change", () => {
+        let idx = $("#txtField").prop('selectedIndex');
+
+        $("#txtCat").empty();
+
+     {{#each lcField_Categories}}
+
+       {{#each categories}}
+                       
+            if({{@../index}} == idx) {           
+              $("#txtCat").append(`<option value={{this.ID_CATE}}>{{this.CATENAME}}</option>`);
+            }
         
-        for (let i = 0; i < cur.length; i++) {
-   $(catSelect).append(`<option value="`+cur[i].ID_CATERGORY+`">`+ cur[i].name+`</option>`);
-}
-        
+    
+        {{/each}}
+
+    {{/each}}
+
+
+
       });
     
 });
@@ -150,7 +173,7 @@
 				<select class="form-control" id="txtField" name="Field">
 						
 					{{#each lcField_Catergories}}
-					<option value={{this.field.ID_FIELD}} {{#if (is_equal this.field.ID_FIELD course.ID_FIELD)}}selected {{/if}}>{{this.field.name}}</option>
+					<option value={{this.field.ID_FIELD}} {{#if_equal this.field.ID_FIELD course.ID_FIELD}}selected {{/if}}>{{this.field.name}}</option>
 				
 					{{/each}}
 				</select>
@@ -161,7 +184,7 @@
 				<select class="form-control" id="txtCat" name="Cat">
 			
 					{{#each curCatList}}
-					<option value={{this.ID_CATE}} {{#if (is_equal this.ID_CATE course.ID_CATE)}}selected {{/if}}>{{this.name}}</option>
+					<option value={{this.ID_CATE}} {{#if_equal this.ID_CATE course.ID_CATE}}selected {{/if}}>{{this.name}}</option>
 							
 							
 					{{/each}}
@@ -171,10 +194,16 @@
     
 		</div>
 	  
-	    <div class="form-group">
-			<label for="fuMain">Image</label>
-			<input type="file" multiple id="fuMain" name="fuMain">
-		</div>
+	    <div class="row form-group d-flex justify-content-between">
+        <div class="form-group col-5">
+          <label for="fuMain">Course banner</label>
+          <input type="file" id="fuMain" name="fuMain">
+        </div>
+        <div class="form-group col-5">
+          <label for="fuThumbnail">Course thumbnail</label>
+          <input type="file" id="fuThumbnail" name="fuThumbnail">
+        </div>
+      </div>
 	  
 		<div class="form-group">
 			<label for="txtShortDes">Short Description</label>
@@ -195,7 +224,7 @@
 			<div class="row d-flex align-items-center mt-3" >
 				<div class="form-group col-10">
 					<label for="txtCourseName">Chapter name</label>
-					<input name="chapter[{{@index}}]name" type="text" class="form-control" id="txtCourseName" autofocus value="{{chapter.CHAPTERNAME}}">
+					<input name="chapter[{{@index}}][name]" type="text" class="form-control" id="txtCourseName" autofocus value="{{chapter.CHAPTERNAME}}">
 				</div>
 				<div class="col-2 d-flex flex-column">
           <a class="btn btn-danger py-1" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
@@ -216,15 +245,15 @@
 					<div class="col-10">
 						<div class="form-group">
 							<label for="txtLessonName">Lesson name</label>
-							<input name="chapter[{{@../index}}]lessonName[]" type="text" class="form-control" id="txtLessonName" autofocus value="{{LESSONNAME}}">
+							<input name="chapter[{{@../index}}][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus value="{{LESSONNAME}}">
 						</div>
 					
 						<div class="form-group">
 							<label for="txtLessonUrl">Video url</label>
-							<input name="chapter[{{@../index}}]lessonUrl[]" type="text" class="form-control" id="txtLessonUrl" autofocus value="{{URL}}">
+							<input name="chapter[{{@../index}}][lessonUrl][]" type="text" class="form-control" id="txtLessonUrl" autofocus value="{{URL}}">
 						</div>
 					</div>
-          <div class="col-2 d-flex flex-column">
+          <div class="col-1 d-flex flex-column">
 					<a class="btn btn-danger" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">
 						
 						Remove

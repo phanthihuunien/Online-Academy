@@ -5,7 +5,7 @@ export default {
     return db('lesson');
   },
 
-   findById(id) {
+   async findById(id) {
     const list = await db('lesson').where('ID_LESSON', id);
     if (list.length === 0)
       return null;
@@ -13,7 +13,7 @@ export default {
     return list[0];
   },
 
- findAllByChapterId(id) {
+ async findAllByChapterId(id) {
     const list = await db('lesson').where('ID_CHAPTER', id);
     if (list.length === 0)
       return null;
@@ -22,7 +22,7 @@ export default {
   },
 
   add(lesson) {
-    return db('lesson').insert(lesson, ['ID_LESSON'])[0];
+    return db('lesson').insert(lesson);
   },
 
   del(id) {

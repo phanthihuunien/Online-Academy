@@ -25,6 +25,21 @@ export default {
     return db('chapter').insert(chapter, ['ID_CHAPTER'])[0];
   },
 
+  async add(chap) {
+    // let chap = {
+    //   ID_COURSE: 1,
+    //   CHAPTERNAME: "S",
+  
+    // };
+    let num = await db("chapter")
+      .insert(chap, ["ID_CHAPTER"])
+      .then(function (result) {
+        console.log(result);
+        return result[0]; // respond back to request
+      });
+    return num;
+  },
+
   del(id) {
     return db('chapter').where('ID_CHAPTER', id).del();
   },
