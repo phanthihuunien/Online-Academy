@@ -2,6 +2,14 @@
 
 
     <h2>{{CourseName}}</h2>
+    {{#if isInstructor}}
+        <div class="card-header">
+            <a href="#" class="btn btn-outline-danger">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                New course
+            </a>
+        </div>
+    {{/if}}
 
 
 
@@ -20,6 +28,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{course.COURSENAME}}</h5>
                                 <h6 class="card-title">Instructor: {{instructor.FULLNAME}}
+                                    {{#if isFinish}}
+                                        <span class="text-success">(Finished)</span>
+                                    {{else}}
+                                        <span class="text-danger">(Unfinished)</span>
+                                    {{/if}}
 
                                 </h6>
                                 {{#if isDiscount}}

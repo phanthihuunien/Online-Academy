@@ -186,17 +186,8 @@ router.get("/detail/:id", async function (req, res) {
     });
 });
 
-router.get("/detail/:id_course/:id_detail", async function (req, res) {
-    const courseID = req.params.id_course ||0;
-    const detailID = req.params.id_detail ||0
-    const detail = await detailModel.findbyID(courseID,detailID);
-    if (detail === null) {
-        return res.redirect("/");
-    }
-    res.render('vwCourse/lesson', {
-        detail
-    });
-});
+
+
 
 
 

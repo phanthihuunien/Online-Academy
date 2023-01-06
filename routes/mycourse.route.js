@@ -10,9 +10,18 @@ router.get("/", async function (req, res) {
     //const userid = req.session.loggedinUser.ID_USER; đợi có hàm log in
 
     const items = [];
-    //let courseInWishList = await wishlistModel.findAllbyUserID(userid);
+    // let myCourses;
+    // if (req.session.isStudent) {
+    //     //get all courses of logged student
+    //     myCourses = await userCourseModel.findAllbyUserID(userid);
+    // } else if (req.session.isInstructor) {
+    //     myCourses = await courseModel.findAllbyIDUser(
+    //         req.session.loggedinUser.ID_USER
+    //     );
+    // }
     //test
     let myCourse = await userCourseModel.findAllbyUserID(1);
+
 
 
     for (let item of myCourse) {
@@ -23,6 +32,10 @@ router.get("/", async function (req, res) {
         //calculate discount price
         let realPrice = 0;
         let isDiscount = true;
+        let isFinish = true;
+        if(item.DONE ===0){
+            isFinish = false;
+        }
         if (course.DISCOUNT === 0) {
             realPrice = course.PRICE;
             isDiscount = false;
@@ -38,6 +51,7 @@ router.get("/", async function (req, res) {
             instructor,
             realPrice,
             isDiscount,
+            isFinish,
         });
     }
     res.render("vwCourse/mycourse", {

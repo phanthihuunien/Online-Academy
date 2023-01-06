@@ -19,6 +19,10 @@ export default{
         }
         return list[0];
     },
+    async insert(entity) {
+        return await db('user_course')
+            .insert(entity);
+    },
 
 
 }

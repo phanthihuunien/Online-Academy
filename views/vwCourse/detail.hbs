@@ -31,40 +31,54 @@
                     <p class="card-text"><span class="text" style="font-size: 25px">{{format_number this.course.PRICE}} VND</span></p>
                 {{/if}}
                 {{#if isLogin}}
-                {{#if isBought}}
-                    <div class="input-group-append">
-                         <a href="#">
+                    {{#if isInstructor}}
+                            <div class="input-group mb-3">
+                                <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
+
+                                <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
+                                   role="button">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    Edit
+                                </a>
+                                <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
+                                   role="button">
+                                    <i class="fa fa-play" aria-hidden="true"></i>
+                                    Watch lesson
+                                </a>
+                            </div>
+                    {{else}}
+                        {{#if isBought}}
+                            <div class="input-group-append">
+                                <a href="#">
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-list" aria-hidden="true"></i>
+                                        Start Learning
+                                    </button>
+                                </a>
+                            </div>
+                        {{else}}
+                            <p>
+                                <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                            </p>
+                                <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
+
+
+                        {{/if}}
+                        <a href="#">
                             <button class="btn btn-primary">
-                                <i class="fas fa-list" aria-hidden="true"></i>
-                                        Learn!
+                                <i class="fas fa-save" aria-hidden="true"></i>
+                                Save to watch list
                             </button>
                         </a>
-                    </div>
-                {{else}}
-                        {{#if isInstructor}}
-                                <div class="input-group mb-3">
-                                    <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
 
-                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
-                                       role="button">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        Edit
-                                    </a>
-                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
-                                       role="button">
-                                        <i class="fa fa-play" aria-hidden="true"></i>
-                                        Play
-                                    </a>
-                                </div>
-                        {{else}}
-                                <p>
-                <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </p>
-                                <p>
-                    <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
-                </p>
-                        {{/if}}
+
                 {{/if}}
+                {{else}}
+                    <p>
+                        <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    </p>
+                        <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
+
                 {{/if}}
 
             </div>
@@ -93,7 +107,7 @@
 
                         <div style="margin-left: 20px;">
                             <p class="card-text">Instructor: {{instructor.USERNAME}}</p>
-                            <p class="card-text">Bio:{{instructor.PROFILE}} </p>
+                            <p class="card-text">Profile:{{instructor.PROFILE}} </p>
                         </div>
 
                     </div>
