@@ -35,18 +35,6 @@ app.use('/public', express.static('public'));
 app.use(express.urlencoded({extended:true}));
 
 app.engine('hbs', engine({
-
-    // defaultLayout: 'main.hbs'
-    extname: 'hbs',
-    defaultLayout: 'main',
-    helpers: {
-        section: hbs_sections(),
-        format_number(val) {
-            return numeral(val).format('0,0');
-        }
-    }
-
-  // defaultLayout: 'main.hbs'
   extname: 'hbs',
   defaultLayout: 'main',
   helpers: {
