@@ -3,8 +3,9 @@ export default {
     getTrendingCategory(id) {
         const sql=`select c.ID_CATE, CATENAME, sum(STUNUM) AS TOTALSTUNUM
                    from category join field f on f.ID_FIELD = category.ID_FIELD join course c on category.ID_CATE = c.ID_CATE
-                   where f.ID_FIELD = 1
+                   where f.ID_FIELD = ${id}
                    group by c.ID_CATE`;
         return db.raw(sql);
     },
+
 }

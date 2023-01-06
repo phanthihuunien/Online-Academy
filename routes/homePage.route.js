@@ -7,20 +7,26 @@ import fieldModel from "../services/field.model.js"
 const router = express.Router();
 router.get('/', async function(req, res) {
     const listPplCourse = await courseModel.mostPopularInWeek();
-    // const  = await courseModel.top10PopularInWeek();
     let listTop10 = await courseModel.top10Popular();
     const newCourseList = await courseModel.newCourse();
-    //const mostTrendingCat = await categoryModel.getTrendingCategory();
+    //const mostTrendingCat = await categoryModel.getTrendingCategory(1);
     const mostTrendingField = await fieldModel.getTrendingField();
-   // console.log(mostTrendingCat[0]);
-    console.log(mostTrendingField[0]);
+   console.log(mostTrendingField);
     const items = [];
     const items2 = [];
     const items3 = [];
+
     for (let course of listTop10) {
         let instructor = await userModel.getCourseFromUser(course.ID_USER);
-        let raw= await userCourseModel.getAvgRateByCourseId(course.ID_COURSE);
-        const courseRate = parseFloat(raw[0][0].RATE).toFixed(1);
+        let rate= await userCourseModel.getAvgRateByCourseId(course.ID_COURSE);
+        let courseRate = null;
+        if(rate === null){
+            courseRate = 0;
+            console.log("========");
+        }else{
+            courseRate = parseFloat(rate).toFixed(1);
+        }
+
         let bestSeller;
         for(let c of listPplCourse){
             if(course.STUNUM >= c.STUNUM){
@@ -38,28 +44,34 @@ router.get('/', async function(req, res) {
     }
     for (let course of newCourseList) {
         let instructor = await userModel.getCourseFromUser(course.ID_USER);
-        let raw= await userCourseModel.getAvgRateByCourseId(course.ID_COURSE);
-        const courseRate =  parseFloat(raw[0][0].RATE).toFixed(1);
+        let rate= await userCourseModel.getAvgRateByCourseId(course.ID_COURSE);
+        let courseRate = null;
+        if(rate === null){
+            courseRate = 0;
+        }else{
+            courseRate = parseFloat(rate).toFixed(1);
+        }
         items2.push({
             course,
             instructor,
             courseRate,
         });
     }
-    for (let field of mostTrendingField[0]) {
-        console.log("++++" + field.ID_FIELD);
-        let mostTrendingCat = await categoryModel.getTrendingCategory(field.ID_FIELD);
-        console.log("====" + mostTrendingCat[0][0]);
-        items3.push({
-            field,
-            mostTrendingCate: mostTrendingCat[0],
-        });
+    for (let field of mostTrendingField) {
+        //console.log("++++" + field[0]);
+        // const mostTrendingCat = await categoryModel.getTrendingCategory(field.ID_FIELD);
+        // const mostTrendingCate = mostTrendingCat[0];
+        // console.log("====" + mostTrendingCate);
+        // items3.push({
+        //     field,
+        //     mostTrendingCate,
+        // });
     }
     res.render('vwHomePage/homePage',{
         pplCourse: listPplCourse,
         top10: items,
         newCourseList: items2,
-        mostTrendingFields:  items3,
+        //mostTrendingFields: items3,
         empty: listPplCourse === 0
 
     });
