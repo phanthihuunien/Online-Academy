@@ -45,6 +45,7 @@ create table oadb.course
     SHORTDES     varchar(500)  null,
     RATENUM      int           null,
     STUNUM       int           null,
+	FULLTEXT(COURSENAME),
     constraint FK_RELATIONSHIP_4
         foreign key (ID_CATE) references oadb.category (ID_CATE),
     constraint FK_RELATIONSHIP_7
