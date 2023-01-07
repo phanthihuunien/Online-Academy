@@ -11,10 +11,10 @@ router.get("/", async function (req, res) {
 
     const items = [];
     // let myCourses;
-    // if (req.session.isStudent) {
+    // if (req.session.authUser.TYPE == 1) {
     //     //get all courses of logged student
     //     myCourses = await userCourseModel.findAllbyUserID(userid);
-    // } else if (req.session.isInstructor) {
+    // } else if (req.session.TYPE == 2) {
     //     myCourses = await courseModel.findAllbyIDUser(
     //         req.session.loggedinUser.ID_USER
     //     );
@@ -62,7 +62,6 @@ router.get("/", async function (req, res) {
 
 
 });
-
 
 
 

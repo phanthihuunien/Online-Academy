@@ -17,6 +17,10 @@ export default{
             .where('ID_WISHLIST',id)
             .del();
     },
+    async insert(entity) {
+        return await db('wishlist')
+            .insert(entity);
+    },
 
 
 

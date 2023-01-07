@@ -3,6 +3,16 @@
         {{this.course.COURSENAME}}
     </h4>
     <div class="card-body" >
+        {{#if err_message}}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{err_message}}
+            </div>
+        {{/if}}
+
+
         <div class="row" >
             <div class="col-8" style="background-color:black" ><span style=" margin-top: 24px;">
 
@@ -30,8 +40,31 @@
                 {{else}}
                     <p class="card-text"><span class="text" style="font-size: 25px">{{format_number this.course.PRICE}} VND</span></p>
                 {{/if}}
+
                 {{#if isLogin}}
-                    {{#if isInstructor}}
+
+                    {{#if isSave}}
+                        {{#if isInstructor}}
+                                <div class="input-group mb-3">
+                                    <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
+
+                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
+                                       role="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        Edit
+                                    </a>
+
+                                </div>
+                        {{/if}}
+                    {{else}}
+                        <p>
+                            <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/save" role="button" style="font-size: 25px"  >Save to watch list   <i class="fa fa-save"></i></a>
+                        </p>
+
+                    {{/if}}
+
+                    {{#if isBought}}
+                        {{#if isInstructor}}
                             <div class="input-group mb-3">
                                 <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
 
@@ -40,50 +73,53 @@
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                     Edit
                                 </a>
-                                <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
-                                   role="button">
-                                    <i class="fa fa-play" aria-hidden="true"></i>
-                                    Watch lesson
-                                </a>
-                            </div>
-                    {{else}}
-                        {{#if isBought}}
-                            <div class="input-group-append">
-                                <a href="#">
-                                    <button class="btn btn-primary">
-                                        <i class="fas fa-list" aria-hidden="true"></i>
-                                        Start Learning
-                                    </button>
-                                </a>
+
                             </div>
                         {{else}}
-                            <p>
-                                <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                            </p>
-                                <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
+                            {{#if isSave}}
+                                <p>
+                                    <a class="btn btn-primary" href="#" role="button" style="font-size: 25px" >Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
+                                </p>
+
+
+                            {{else}}
+
+                                <p>
+                                    <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
+                                </p>
+
+
+
+                            {{/if}}
+
 
 
                         {{/if}}
-                        <a href="#">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save" aria-hidden="true"></i>
-                                Save to watch list
-                            </button>
-                        </a>
+                    {{else}}
+                        <p>
+                            <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
+                        </p>
 
 
-                {{/if}}
+                    {{/if}}
                 {{else}}
+
                     <p>
-                        <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Add to cart  <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
                     </p>
-                        <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
 
                 {{/if}}
 
             </div>
 
         </div>
+
+
+
+
+
+
+
         <div class="row" style="margin-top: 20px" style="border-top-style:solid">
             <div class="col-5">
                 <h5 >DESCRIPTION</h5>
@@ -147,9 +183,9 @@
 
 
                                 <div class="list-group" >
-                                    {{#each lessondata as |lessondata|}}
-                                           <a href="#">{{lestt.LESSONNAME}} </a>
-                                    {{/each}}
+
+                                           <a href="#">preview  </a>
+
 
 
 
@@ -217,10 +253,12 @@
 
             <div class="d-flex justify-content-between">
                 {{#each feedbackdata}}
+                    <card>
 
+                    </card>
                     <div>
 
-                        <a href="/category/course/detail/{{user.ID_USER}}" ><img src="/public/imgs/course/{{feedback.ID_COURSE}}/main_thumbs.jpg" alt="{{user.FULLNAME}}" title="{{user.FULLNAME}}"></a>
+                        <a href="/category/course/detail/{{user.ID_USER}}" ><img src="/public/imgs/course/{{feedback.ID_COURSE}}/ava1.png" alt="{{user.FULLNAME}}" title="{{user.FULLNAME}}"></a>
 
                     </div>
                     <div></div>
