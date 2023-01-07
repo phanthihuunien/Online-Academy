@@ -11,7 +11,8 @@ router.get('/', async function(req, res) {
     const newCourseList = await courseModel.newCourse();
     //const mostTrendingCat = await categoryModel.getTrendingCategory(1);
     const mostTrendingField = await fieldModel.getTrendingField();
-   console.log(mostTrendingField);
+    const mostTrendingFields =  mostTrendingField[0];
+   console.log(mostTrendingFields);
     const items = [];
     const items2 = [];
     const items3 = [];
@@ -57,21 +58,41 @@ router.get('/', async function(req, res) {
             courseRate,
         });
     }
-    for (let field of mostTrendingField) {
-        //console.log("++++" + field[0]);
-        // const mostTrendingCat = await categoryModel.getTrendingCategory(field.ID_FIELD);
-        // const mostTrendingCate = mostTrendingCat[0];
-        // console.log("====" + mostTrendingCate);
+    //for (let field of mostTrendingFields) {
+        // console.log("////" + field.ID_FIELD);
+        //  const mostTrendingCat = await categoryModel.getTrendingCategory(field.ID_FIELD);
+        // // const mostTrendingCate = mostTrendingCat[0];
+        //  console.log("------" + mostTrendingCat);
+        // console.log("0000000" + mostTrendingCat[0]);
+        // const cate = mostTrendingCat[0];
+        // const cateT = cate[0];
         // items3.push({
         //     field,
-        //     mostTrendingCate,
+        //     cateT,
         // });
-    }
+        let list = [];
+        const promises = mostTrendingFields.map(async (field) => {
+            const cat = await categoryModel.getTrendingCategory(field.ID_FIELD);
+            return cat[0];
+        });
+        const catsArr = await Promise.all(promises);
+
+        let i = 0;
+        mostTrendingFields.forEach((field) => {
+                let temp = {
+                    field: field,
+                    categories: catsArr[i],
+                };
+                list.push(temp);
+                i++;
+            });
+            console.log("00000"+ list);
+
     res.render('vwHomePage/homePage',{
         pplCourse: listPplCourse,
         top10: items,
         newCourseList: items2,
-        //mostTrendingFields: items3,
+        mostTrendingFieldss: list,
         empty: listPplCourse === 0
 
     });
