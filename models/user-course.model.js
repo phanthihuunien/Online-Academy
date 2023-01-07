@@ -23,6 +23,10 @@ export default{
         return await db('user_course')
             .insert(entity);
     },
+    async findLastIDUserCourse(){
+        const list =  await db('user_course')
+        return list[list.length -1];
+    },
 
 
 }

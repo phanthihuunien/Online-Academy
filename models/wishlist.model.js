@@ -21,6 +21,10 @@ export default{
         return await db('wishlist')
             .insert(entity);
     },
+    async findLastIDWishList(){
+        const list =  await db('wishlist')
+        return list[list.length -1];
+    },
 
 
 

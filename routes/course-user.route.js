@@ -20,6 +20,8 @@ let isSave = false;
 
 
 router.get("/detail/:id", async function (req, res) {
+
+
     const courseID = req.params.id ||0;
     const course = await courseModel.findbyID(courseID);
     if (course === null) {
@@ -264,8 +266,13 @@ router.get("/detail/:id/enroll", async function (req, res) {
         top5.push({top555})
     }
 
+
+
+    const lastID = await userCourseModel.findLastIDUserCourse();
+    let lastIDUserCourse = lastID.ID_USER_COURSE +1;
+
     const newUserCourse = {
-       ID_USER_COURSE:28,
+       ID_USER_COURSE:lastIDUserCourse,
         ID_COURSE : course.ID_COURSE,
         //ID_USER : req.session.loggedinUser.ID_USER,
         ID_USER:12,
@@ -409,10 +416,12 @@ router.get("/detail/:id/save", async function (req, res) {
         top5.push({top555})
     }
 
+    const lastID = await wishlistModel.findLastIDWishList();
+    let lastIDWishlist = lastID.ID_WISHLIST +1;
     const newWishlist = {
-        //ID_WISHLIST:50,
+        ID_WISHLIST:lastIDWishlist,
         //ID_USER : req.session.loggedinUser.ID_USER,
-        ID_WISHLIST:20,
+
         ID_USER : 1,
         ID_COURSE : course.ID_COURSE,
 
