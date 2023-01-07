@@ -28,6 +28,7 @@
         color: orange;
     }
   </style>
+
   {{{_sections.css}}}
 </head>
 
@@ -78,34 +79,24 @@
           <div class="col-sm-3">
               <div class="card mb-3">
                   <h4 class="card-header">
-                      Categories
+                      Feature Menu
                   </h4>
                   <div class="list-group list-group-flush">
-                      {{#each lcCategories}}
-                          {{#if isActive}}
-                              <a href="/products/bycat/{{CatID}}" class="active list-group-item list-group-item-action">
-                                  <i class="fa fa-caret-right" aria-hidden="true"></i>
-                                  {{CatName}}
-                              </a>
-                          {{else}}
-                              <a href="/products/bycat/{{CatID}}" class="list-group-item list-group-item-action">
-                                  <i class="fa fa-caret-right" aria-hidden="true"></i>
-                                  {{CatName}}
-                              </a>
-                          {{/if}}
-                      {{/each}}
+                      <a href="/admin/manageStudent" onclick="notify(this)" class="list-group-item list-group-item-action">
+                          <i class="fa fa-caret-right" aria-hidden="true"></i>
+                          Student List Management
+                      </a>
+                      <a href="/admin/manageInstructor" onclick="notify(this)" class="list-group-item list-group-item-action">
+                          <i class="fa fa-caret-right" aria-hidden="true"></i>
+                          Instructor List Management
+                      </a>
+                      <a href="/admin/manageField" onclick="notify(this)" class="list-group-item list-group-item-action">
+                          <i class="fa fa-caret-right" aria-hidden="true"></i>
+                          Field Management
+                      </a>
                   </div>
               </div>
-              <div class="card">
-                  <h4 class="card-header">
-                      Featured
-                  </h4>
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">An item</li>
-                      <li class="list-group-item">A second item</li>
-                      <li class="list-group-item">A third item</li>
-                  </ul>
-              </div>
+
           </div>
           <div class="col-sm-9">
               {{{body}}}
@@ -121,8 +112,32 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
     integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
     crossorigin="anonymous"></script>
+  <script>
+      // $(document).off("click", ".list-group .list-group-item").on("click", ".list-group .list-group-item", function () {
+      //     try {
+      //         $(".list-group .list-group-item").removeClass("active");
+      //     } catch (e) { }
+      //
+      //     $(this).addClass("active");
+      // });
+      function notify(el) {
+          resetElements();
+          console.log("hihihi");
+          el.classList.add('active');
+      }
 
-  <!--<script src="assets/scritps.js"></script>-->
+      function resetElements() {
+          // Get all elements with "active" class
+          let els = document.getElementsByClassName("active");
+
+          // Loop over Elements to remove active class;
+          for (let i = 0; i < els.length; i++) {
+              els[i].classList.remove('active')
+          }
+      }
+
+  </script>
+
 </body>
 
 </html>
