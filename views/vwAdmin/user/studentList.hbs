@@ -42,7 +42,7 @@
                                             <a class="candidate-list-favourite order-2 text-danger" href="#"><i class="fas fa-lock"></i></a>
                                             <span class="candidate-list-time order-1">Disable</span>
                                             {{else}}
-                                            <a class="candidate-list-favourite order-2 text-danger" href="#"><i class="fas fa-badge-check"></i></a>
+                                            <a class="candidate-list-favourite order-2 text-success" href="#"><i class="fas fa-badge-check"></i></a>
                                             <span class="candidate-list-time order-1">Active</span>
                                         {{/if}}
                                     </td>
@@ -55,16 +55,32 @@
                             {{/each}}
                         </tbody>
                     </table>
-                    <div class="text-center mt-3 mt-sm-3">
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-                            <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">25</a></li>
-                            <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-                        </ul>
+                    <div class="d-flex justify-content-center mt-3 mt-sm-3">
+                        <nav class="shadow-sm">
+                            <ul class="pagination">
+
+                                <li class="page-item {{#if hasNotPrev}}disabled{{/if}}">
+                                    <a class="page-link" href="?page={{prev}}">Previous</a>
+                                </li>
+                                {{#each this.pageNumbers}}
+                                    {{#if isCurrent}}
+                                        <li class="page-item active" aria-current="page">
+                                            <span class="page-link">{{value}}</span>
+                                        </li>
+                                    {{else}}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{value}}">{{value}}</a>
+                                        </li>
+                                    {{/if}}
+                                {{/each}}
+                                {{#if isNotEnd}}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{next}}">Next</a>
+                                    </li>
+                                {{/if}}
+
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

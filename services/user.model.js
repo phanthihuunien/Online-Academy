@@ -12,4 +12,18 @@ export default {
     getAllUserByType(type) {
         return db('users').where('TYPE', type);
     },
+    async countByUserType(type) {
+        const list = await db('users')
+            .where('TYPE', type)
+            .count({ amount: 'ID_USER' });
+
+        return list[0].amount;
+    },
+
+    findPageByType(type, limit, offset) {
+        return db('users')
+            .where('TYPE', type)
+            .limit(limit)
+            .offset(offset);
+    },
 }

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./public/css/scss.scss" />
+    <link rel="stylesheet" type="text/css" href="public/css/studentList.scss" />
   <style>
     * {
       font-size: 14px;
@@ -72,12 +74,45 @@
     </div>
   </nav>
   <div class="container-fluid mt-4">
-    <div class="row">
-
-      {{{body}}}
-
-    </div>
+      <div class="row">
+          <div class="col-sm-3">
+              <div class="card mb-3">
+                  <h4 class="card-header">
+                      Categories
+                  </h4>
+                  <div class="list-group list-group-flush">
+                      {{#each lcCategories}}
+                          {{#if isActive}}
+                              <a href="/products/bycat/{{CatID}}" class="active list-group-item list-group-item-action">
+                                  <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                  {{CatName}}
+                              </a>
+                          {{else}}
+                              <a href="/products/bycat/{{CatID}}" class="list-group-item list-group-item-action">
+                                  <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                  {{CatName}}
+                              </a>
+                          {{/if}}
+                      {{/each}}
+                  </div>
+              </div>
+              <div class="card">
+                  <h4 class="card-header">
+                      Featured
+                  </h4>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">An item</li>
+                      <li class="list-group-item">A second item</li>
+                      <li class="list-group-item">A third item</li>
+                  </ul>
+              </div>
+          </div>
+          <div class="col-sm-9">
+              {{{body}}}
+          </div>
+      </div>
   </div>
+
 
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -86,7 +121,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
     integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
     crossorigin="anonymous"></script>
-  {{{_sections.js}}}
+
+  <!--<script src="assets/scritps.js"></script>-->
 </body>
 
 </html>
