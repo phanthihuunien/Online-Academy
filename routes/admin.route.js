@@ -14,7 +14,6 @@ router.get('/manageStudent', async function(req, res) {
 
     const pageNumbers = [];
     for (let i = 1; i <= nPages; i++) {
-        let nextPg = i + 1;
         pageNumbers.push({
             value: i,
             isCurrent: i === +curPage
@@ -33,10 +32,30 @@ router.get('/manageStudent', async function(req, res) {
 
 })
 router.get('/manageInstructor', async function(req, res) {
+    const limit2 = 5;
+    const curPage = req.query.page || 1;
+    const offset = (curPage - 1) * limit2;
+    const studentList = await userModel.findPageByType(2, limit2, offset);
 
-    res.render('vwAdmin/user/instructorList',{
+    const total = await UserModel.countByUserType(2);
+    const nPages = Math.ceil(total / limit2);
 
-
+    const pageNumbers2 = [];
+    for (let i = 1; i <= nPages; i++) {
+        pageNumbers2.push({
+            value: i,
+            isCurrent: i === +curPage
+        });
+    }
+    console.log(+curPage === 1)
+    res.render('vwAdmin/user/studentList',{
+        students: studentList,
+        empty: studentList.length === 0,
+        pageNumbers: pageNumbers2,
+        next: +curPage + 1,
+        isNotEnd: +curPage !== +nPages,
+        prev:+curPage - 1,
+        hasNotPrev: +curPage === 1,
     });
 })
 router.get('/manageCourse', async function(req, res) {
