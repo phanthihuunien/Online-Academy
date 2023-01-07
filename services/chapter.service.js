@@ -14,16 +14,17 @@ export default {
   },
   
   async findAllByCourseId(id) {
-    const list = await db('chapter').where('ID_COURSE', id);
+    const list = await db('chapter').where('ID_COURSE', id).orderBy("ID_CHAPTER","asc");
+    
     if (list.length === 0)
       return null;
 
     return list;
   },
 
-  add(chapter) {
-    return db('chapter').insert(chapter, ['ID_CHAPTER'])[0];
-  },
+  // add(chapter) {
+  //   return db('chapter').insert(chapter, ['ID_CHAPTER'])[0];
+  // },
 
   async add(chap) {
     // let chap = {
