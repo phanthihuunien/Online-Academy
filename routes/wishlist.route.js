@@ -14,18 +14,14 @@ const router = express.Router();
 
 
 router.get("/", async function (req, res) {
-    //const userid = req.session.loggedinUser.ID_USER; đợi có hàm log in
+    const userid = req.session.authUser.ID_USER;
 
     const items = [];
-    //let courseInWishList = await wishlistModel.findAllbyUserID(userid);
-    //test
-    let courseInWishList = await wishlistModel.findAllbyUserID(1);
-
-
+    let courseInWishList = await wishlistModel.findAllbyUserID(userid);
     for (let item of courseInWishList) {
         //get information of instructor and course to show in quick view
         let course = await courseModel.findbyID(item.ID_COURSE);
-        //let instructor = await userModel.findbyID(course.ID_USER);
+        let instructor = await userModel.findbyID(course.ID_USER);
 
         //calculate discount price
         let realPrice = 0;
@@ -42,7 +38,7 @@ router.get("/", async function (req, res) {
         items.push({
 
             course,
-            // instructor,
+            instructor,
             realPrice,
             isDiscount,
         });
@@ -53,43 +49,17 @@ router.get("/", async function (req, res) {
         isEmpty: items.length === 0,
     });
 
-
-    router.post("/add", async function (req, res) {
-        //get infor of course & user
-       // const courseid = +req.body.ID_COURSE;
-        //const userid = req.session.loggedinUser.ID_USER;
-
-        //check if this date has existed
-        // const datum = await wishlistModel.findAllbyUserAndCourseID(userid, courseid);
-        //test
-        const datum = await wishlistModel.findAllbyUserAndCourseID(1, 1);
-        if (datum.length === 0) {
-            //add data to db
-            await wishlistModel.add({
-                //ID_USER: userid,
-                ID_USER: 1,
-                ID_COURSE: 1,
-            });
-        }
-        res.redirect(req.headers.referer);
-    });
-
     router.post("/remove", async function (req, res) {
-        //get infor of course & user
-       // const courseid = +req.body.ID_COURSE;
-        // const userid = req.session.loggedinUser.ID_USER;
 
-        //get data from db to achive id_wishlist
-        //const datum = await wishlistModel.findAllbyUserAndCourseID(userid, courseid);
-        //test
-        const datum = await wishlistModel.findAllbyUserAndCourseID(1, 1);
+       const courseid = +req.body.ID_COURSE;
+        const userid = req.session.authUser.ID_USER;
+
+        const datum = await wishlistModel.findAllbyUserAndCourseID(userid, courseid);
 
         const delItem = {
             ID_WISHLIST: datum[0].ID_WISHLIST,
-            //test
-            ID_USER: 1,
-            // ID_USER: userid,
-            ID_COURSE: 1,
+            ID_USER: userid,
+            ID_COURSE: courseid,
         };
 
 

@@ -2,6 +2,7 @@ import express from 'express';
 
 import bcrypt from 'bcrypt';
 import userModel from '../models/user.model.js'
+//import Auth from '../../middlewares/auth.mdw'
 
 
 
@@ -9,10 +10,9 @@ import userModel from '../models/user.model.js'
 
 const router = express.Router();
 router.get("/profile",  async function (req, res) {  // phai co Auth
-   // const userdata = req.session.loggedinUser;
-    const users = await userModel.findbyID(1);
+   const userdata = req.session.authUser;
     res.render("vwAccount/profile", {
-        users,
+        userdata,
     });
 });
 
@@ -54,13 +54,13 @@ router.post("/profile", async function (req, res) {
             });
         } else {
             res.render("vwAccount/profile", {
-                // userdata: req.session.loggedinUser,  sesson cua log in , đợi có hàm log in
+                 userdata: req.session.authUser,
                 err_message: "Incorrect password!!!",
             });
         }
     } catch (error) {
         res.render("vwAccount/profile", {
-          //  userdata: req.session.loggedinUser, như trên
+            userdata: req.session.authUser,
             err_message: " Sorry! pls check again",
         });
         console.log(error);

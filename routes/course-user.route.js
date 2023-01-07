@@ -89,7 +89,6 @@ router.get("/detail/:id", async function (req, res) {
 
         }
 
-      //  data['LESSON'] = lessondata;
 
         numles++;
 
@@ -228,7 +227,6 @@ router.get("/detail/:id/enroll", async function (req, res) {
 
         }
 
-        //  data['LESSON'] = lessondata;
 
         numles++;
 
@@ -274,7 +272,7 @@ router.get("/detail/:id/enroll", async function (req, res) {
     const newUserCourse = {
        ID_USER_COURSE:lastIDUserCourse,
         ID_COURSE : course.ID_COURSE,
-        //ID_USER : req.session.loggedinUser.ID_USER,
+        //ID_USER : req.session.authUser.ID_USER,
         ID_USER:12,
         RATE : null,
         FEEDBACK :null,
@@ -379,7 +377,7 @@ router.get("/detail/:id/save", async function (req, res) {
 
         }
 
-        //  data['LESSON'] = lessondata;
+
 
         numles++;
 
@@ -420,8 +418,7 @@ router.get("/detail/:id/save", async function (req, res) {
     let lastIDWishlist = lastID.ID_WISHLIST +1;
     const newWishlist = {
         ID_WISHLIST:lastIDWishlist,
-        //ID_USER : req.session.loggedinUser.ID_USER,
-
+        //ID_USER : req.session.authUser.ID_USER,
         ID_USER : 1,
         ID_COURSE : course.ID_COURSE,
 
