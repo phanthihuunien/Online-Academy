@@ -85,7 +85,7 @@
     $(addChap).click(function (e) {
       e.preventDefault();
 
-      let html = `<div id="Chapter" data-count="` + count + `"><div class="row d-flex align-items-center mt-3" ><div class="form-group col-10"><label for="txtCourseName">Chapter name</label><input name="chapter[`+ count + `][name]" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone"></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger py-1" id="removeChapter" onClick="return this.parentNode.parentNode.parentNode.remove()">Remove</a><a class="btn btn-primary py-1 mt-1" id="addLessonbtn">Add</a></div></div><div id="Lesson" class="pb-3 row d-flex justify-content-center"></div></div>`
+      let html = `<div id="Chapter" data-count="` + count + `"><div class="row d-flex align-items-center mt-3" ><div class="form-group col-10"><label for="txtCourseName">Chapter name</label><input name="chapter[`+ count + `][name]" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone"></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger py-1" id="removeChapter">Remove</a><a class="btn btn-primary py-1 mt-1" id="addLessonbtn">Add</a></div></div><div id="Lesson" class="pb-3 row d-flex justify-content-center"></div></div>`
       $(wrapper).append(html); //add input box
       count++;
     });
@@ -96,11 +96,31 @@
       let chapCount = t.data('count');
 
       let lesContainer = t.children('div#Lesson');
-      let html = `<div class="lesson row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;""><div class="col-10"><div class="form-group"><label for="txtLessonName">Lesson name</label><input name="chapter[` + chapCount + `][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson"></div><div class="form-group"><label for="fuLesson">Video:</label><br/><input type="file" id="fuLesson" name="fuLesson" class="fuLesson"></div></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">Remove</a></div></div>` 
+      let html = `<div class="lesson row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;""><div class="col-10"><div class="form-group"><label for="txtLessonName">Lesson name</label><input name="chapter[` + chapCount + `][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson"></div><div class="form-group"><label for="fuLesson">Video:</label><br/><input type="file" id="fuLesson" name="fuLesson" class="fuLesson"></div></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger" id="removeLesson">Remove</a></div></div>` 
       $(lesContainer).append(html);
     });
 
+ $(wrapper).on("click", "#removeChapter", function(e) {
+    e.preventDefault()
+    let t = $(this).parent('div').parent('div').parent('div');
 
+    let lesContainer = t.children('div#Lesson');
+    
+    let children = lesContainer.children();
+    children.each((index, child)=>{
+        $(child).remove();
+    })
+      t.remove();
+     
+  });
+
+  $(wrapper).on("click", "#removeLesson", function(e) {
+    e.preventDefault()
+    let t = $(this).parent('div').parent('div');
+      $(t).remove();
+  });
+
+ 
 
     $("#txtField").on("change", () => {
       let idx = $("#txtField").prop('selectedIndex');
