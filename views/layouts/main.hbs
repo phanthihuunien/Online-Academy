@@ -13,18 +13,18 @@
     }
 
     .dropdown .dropdown-menu {
-      display: none // remove the gap so it doesn't close
+      display: none 
     }
 
 
     .dropdown:hover>.dropdown-menu {
       display: block;
-      margin-top: 0; // remove the gap so it doesn't close
+      margin-top: 0;
     }
 
     .dropend:hover>.dropdown-menu {
       display: block;
-      margin-top: 0; // remove the gap so it doesn't close
+      margin-top: 0;
       position: absolute;
       top: 0;
       left: 100%;
@@ -68,11 +68,14 @@
                     <li class="dropdown dropend">
                       <a class="dropdown-item" href="#" id="dropdown06" data-bs-toggle="dropdown"
                         aria-expanded="false">{{field.FIELDNAME}}</a>
+                                                {{#if categories}}
+
                       <ul class="dropdown-menu" aria-labelledby="dropdown06">
                         {{#each categories}}
                           <li><a class="dropdown-item" href="#">{{CATENAME}}</a></li>
                         {{/each}}
-                      </ul>
+                      
+                      </ul>  {{/if}}
                     </li>
 
                   {{/each}}

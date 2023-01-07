@@ -41,107 +41,135 @@
       theme: 'fa4',
       allowedFileExtensions: ['png'],
     });
-	        $('#fuThumbnail').fileinput({
+	  $('#fuThumbnail').fileinput({
       dropZoneEnabled: false,
       showUpload: false,
       maxFileCount: 1,
       theme: 'fa4',
       allowedFileExtensions: ['png'],
     });
-
+    $('#fuLesson').fileinput({
+      dropZoneEnabled: false,
+      showUpload: false,
+      maxFileCount: 1,
+      theme: 'fa4',
+      allowedFileExtensions: ['png'],
+    });
   </script>
   
   
   <script>
     $(document).ready(function() {
+
+    let courseid = {{course.ID_COURSE}};
+
+
     var count ={{curcounter}};
     var wrapper = $("#Content");
     var addChap = $("#addChapterbtn");
-
+    
+    $("#closeModal").click(function(e){
+      e.preventDefault();
+       $('#fuLesson').fileinput('clear')
+    });
    
-    $(addChap).click(function(e) {
-        e.preventDefault();
-        
-            		let html = `<div id="Chapter" data-count="`+ count +`">
-			<div class="row d-flex align-items-center mt-3" >
-				<div class="form-group col-10">
-					<label for="txtCourseName">Chapter name</label>
-					<input name="chapter[`+count+`][name]" type="text" class="form-control" id="txtCourseName" autofocus placeholder="iPhone">
-				</div>
-				<div class="col-2 d-flex flex-column">
-          <a class="btn btn-danger py-1" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
-            
-            Remove
-          </a>
-          <a class="btn btn-primary py-1 mt-1" id="addLessonbtn">
-					
-					Add
-				</a>
-        </div>
-			</div>
-		  
-			<div id="Lesson" class="pb-3 row d-flex justify-content-center">
-				
-				
-			</div>
-			
-      </div>
-		  `
-     $(wrapper).append(html); //add input box
-     count++;
+   $("#saveModal").click(function(e){
+      e.preventDefault();
+      var el = $('#fuLesson');
+      var fd = new FormData();
+      fd.append('fuLesson', el[0].files[0])
+      let val = $("#selectedLesson").val();
+      $("#"+val).html(el[0].files[0].name)
+      $.ajax({
+        url: "/lesson/save?lessonId=" + val,
+        data: fd,
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        cache: false,
+      });
+       $('#fuLesson').fileinput('clear')
     });
 
-    $(wrapper).on("click", "#addLessonbtn", function(e) {
+    $(addChap).click(function(e) {
         e.preventDefault();
+        $.getJSON(`/chapter/create?courseId=` + courseid, function (data) {
+          let html = `<div id="Chapter" data-count="`+count+`" data-id="`+data+`"><input name="chapter[`+ count +`][id]" type="text" class="form-control" id="txtPrice" style="display: none;" value="`+data+`"><div class="row d-flex align-items-center mt-3" ><div class="form-group col-10"><label for="txtCourseName">Chapter name</label><input name="chapter[`+ count +`][name]" type="text" class="form-control" id="txtCourseName" autofocus placeholder="New Chapter name"></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger py-1" id="removeChapter">Remove</a><a class="btn btn-primary py-1 mt-1" id="addLessonbtn">Add</a></div></div><div id="Lesson" class="pb-3 row d-flex justify-content-center"></div></div>`
+          $(wrapper).append(html); //add input box
+          count++;
+        });  		
+     });
+
+  $(wrapper).on("click", "#addLessonbtn", function(e) {
+      e.preventDefault();
        let t = $(this).parent('div').parent('div').parent('div');
        let chapCount = t.data('count');
+
+       let chapid = t.data('id');
       
       let lesContainer = t.children('div#Lesson');
-     		let html = `
-        <div class="row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;" >
-					<div class="col-10">
-						<div class="form-group">
-							<label for="txtLessonName">Lesson name</label>
-							<input name="chapter[` +chapCount+`][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus placeholder="Lesson">
-						</div>
-					
-						<div class="form-group">
-							<label for="txtLessonUrl">Video url</label>
-							<input name="chapter[`+chapCount+`][lessonUrl][]" type="text" class="form-control" id="txtLessonUrl" autofocus placeholder="video url">
-						</div>
-					</div>
-          <div class="col-1 d-flex flex-column">
-					<a class="btn btn-danger" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">
-						
-						Remove
-					</a>
-          </div>
-          </div>
-		` ;
+        $.getJSON(`/lesson/create?chapId=` + chapid, function (data) {
+          let html = `<div class="row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;" data-id="`+ data +`"><input name="chapter[`+ chapCount +`][lessonId][]" type="text" class="form-control" id="txtPrice" style="display: none;" value="`+ data +`"><div class="col-10"><div class="form-group"><label for="txtLessonName">Lesson name</label><input name="chapter[`+ chapCount +`][lessonName][]" type="text" class="form-control" id="txtLessonName" placeholder="New lesson name"></div><div class="form-group"><p>Video: <span id={{ID_CATE}}></span></p></div></div><div class="col-2 d-flex flex-column"><a class="btn btn-danger" id="removeLesson">Remove</a><a class="btn btn-primary mt-1" data-toggle="modal" data-target="#largeModal" id="changeLessonVid">Change</a></div></div>` ;
         $(lesContainer).append(html);
-    })
+       })
+  });
+  $(wrapper).on("click", "#removeChapter", function(e) {
+    e.preventDefault()
+    let t = $(this).parent('div').parent('div').parent('div');
+    let chapid = t.data("id");
 
-          $("#txtField").on("change", () => {
+    let lesContainer = t.children('div#Lesson');
+    
+    let children = lesContainer.children();
+    children.each((index, child)=>{
+      let lesid = $(child).data("id");
+      $.getJSON(`/lesson/del?lessonId=` + lesid, function (data) {  
+        $(child).remove();
+      });
+    })
+    $.getJSON(`/chapter/del?chapterId=` + chapid, function (data) {
+      t.remove();
+    });
+     
+  });
+
+  $(wrapper).on("click", "#removeLesson", function(e) {
+    e.preventDefault()
+    let t = $(this).parent('div').parent('div');
+    let lesid = t.data('id');
+    $.getJSON(`/lesson/del?lessonId=` + lesid, function (data) {  
+      $(t).remove();
+    });
+
+  });
+
+
+
+    $("#txtField").on("change", () => {
         let idx = $("#txtField").prop('selectedIndex');
 
         $("#txtCat").empty();
 
-     {{#each lcField_Categories}}
-
-       {{#each categories}}
-                       
+        {{#each lcField_Categories}}
+         {{#each categories}}
             if({{@../index}} == idx) {           
-              $("#txtCat").append(`<option value={{this.ID_CATE}}>{{this.CATENAME}}</option>`);
-            }
-        
-    
+             $("#txtCat").append(`<option value={{this.ID_CATE}}>{{this.CATENAME}}</option>`);
+            }   
+         {{/each}}
         {{/each}}
 
-    {{/each}}
+    });
+
+     		
+  $(wrapper).on("click", "#changeLessonVid", function(e) {
+    e.preventDefault();
+    let t = $(this).parent('div').parent('div');
+    let lesid = t.data('id');
+
+    $("#selectedLesson").val(lesid);
+  });
 
 
-
-      });
     
 });
 </script>
@@ -172,10 +200,11 @@
 				<label for="txtField">Field</label>
 				<select class="form-control" id="txtField" name="Field">
 						
-					{{#each lcField_Catergories}}
-					<option value={{this.field.ID_FIELD}} {{#if_equal this.field.ID_FIELD course.ID_FIELD}}selected {{/if}}>{{this.field.name}}</option>
-				
-					{{/each}}
+
+           {{#each lcField_Categories}}
+              <option value={{field.ID_FIELD}} {{#if_equal ID_FIELD ../curField.ID_FIELD}}selected="selected" {{/if_equal}}>{{field.FIELDNAME}}</option>
+
+            {{/each}}
 				</select>
 			</div>
 		
@@ -184,7 +213,7 @@
 				<select class="form-control" id="txtCat" name="Cat">
 			
 					{{#each curCatList}}
-					<option value={{this.ID_CATE}} {{#if_equal this.ID_CATE course.ID_CATE}}selected {{/if}}>{{this.name}}</option>
+					<option value={{ID_CATE}} {{#if_equal ID_CATE ../course.ID_CATE}}selected="selected" {{/if_equal}}>{{CATENAME}}</option>
 							
 							
 					{{/each}}
@@ -220,49 +249,48 @@
 		<div id="Content">
 		 
 			{{#each this.data}}
-			<div id="Chapter" data-count="{{@index}}">
-			<div class="row d-flex align-items-center mt-3" >
-				<div class="form-group col-10">
-					<label for="txtCourseName">Chapter name</label>
-					<input name="chapter[{{@index}}][name]" type="text" class="form-control" id="txtCourseName" autofocus value="{{chapter.CHAPTERNAME}}">
-				</div>
-				<div class="col-2 d-flex flex-column">
-          <a class="btn btn-danger py-1" id="removeChapter" onClick="return this.parentNode.parentNode.remove()">
-            
-            Remove
-          </a>
-          <a class="btn btn-primary py-1 mt-1" id="addLessonbtn">
-					
-					Add
-				</a>
-        </div>
-			</div>
+			<div id="Chapter" data-count="{{@index}}" data-id="{{chapter.ID_CHAPTER}}">
+				<input name="chapter[{{@index}}][id]" type="text" class="form-control" style="display: none;" value="{{chapter.ID_CHAPTER}}">
+			  <div class="row d-flex align-items-center mt-3" >
+				  <div class="form-group col-10">
+					  <label for="txtCourseName">Chapter name</label>
+					  <input name="chapter[{{@index}}][name]" type="text" class="form-control" id="txtCourseName" autofocus value="{{chapter.CHAPTERNAME}}">
+				  </div>
+				  <div class="col-2 d-flex flex-column">
+            <a class="btn btn-danger py-1" id="removeChapter">  
+              Remove
+            </a>
+            <a class="btn btn-primary py-1 mt-1" id="addLessonbtn">
+					  Add
+				    </a>
+          </div>
+			  </div>
 		  
-			<div id="Lesson" class="pb-3 row d-flex justify-content-center">
+			  <div id="Lesson" class="pb-3 row d-flex justify-content-center">
 				
 				{{#each lessons}}
-				<div class="row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;" >
-					<div class="col-10">
-						<div class="form-group">
-							<label for="txtLessonName">Lesson name</label>
-							<input name="chapter[{{@../index}}][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus value="{{LESSONNAME}}">
-						</div>
-					
-						<div class="form-group">
-							<label for="txtLessonUrl">Video url</label>
-							<input name="chapter[{{@../index}}][lessonUrl][]" type="text" class="form-control" id="txtLessonUrl" autofocus value="{{URL}}">
-						</div>
-					</div>
-          <div class="col-1 d-flex flex-column">
-					<a class="btn btn-danger" id="removeLesson" onClick="return this.parentNode.parentNode.remove()">
-						
-						Remove
-					</a>
-          </div>
+
+				  <div class="row col-11 d-flex align-items-center pt-2 pb-3 mt-2" style="background-color: #bec4d6; border-radius: 15px;" data-id="{{ID_LESSON}}">
+					  <input name="chapter[{{@../index}}][lessonId][]" type="text" class="form-control" style="display: none;" value="{{ID_LESSON}}">
+		        <div class="col-10">
+						  <div class="form-group">
+                <label for="txtLessonName">Lesson name</label>
+                <input name="chapter[{{@../index}}][lessonName][]" type="text" class="form-control" id="txtLessonName" autofocus value="{{LESSONNAME}}">
+					    </div>
+						  <div class="form-group">
+                <p>Video: <span id={{ID_LESSON}}>{{URL}}</span></p>
+              </div>
+					  </div>
+            <div class="col-2 d-flex flex-column">
+				  	  <a class="btn btn-danger" id="removeLesson">
+						  Remove
+					    </a>
+              <a class="btn btn-primary mt-1" data-toggle="modal" data-target="#largeModal" id="changeLessonVid">Change</a>
+            </div>
           </div>
 				{{/each}}
 				
-			</div>
+			  </div>
 			
       </div>
 				
@@ -271,18 +299,53 @@
 		 
 		</div>
 	  
-		<a class="btn btn-primary" id="addChapterbtn">
-			<!-- <i class="fa fa-check" aria-hidden="true"></i> -->
-			Add
-		</a>
+	  <div style="width: 100%" class="d-flex justify-content-center">
+      <a class="btn btn-primary col-3" id="addChapterbtn">
+        Add
+      </a>
+
+      </div>
 	  
     </div>
 	
-    <div class="card-footer">
+    <div class="card-footer pb-5 mt-5">
       <button type="submit" class="btn btn-primary">
         <i class="fa fa-check" aria-hidden="true"></i>
         Save
       </button>
+      
+      <button type="submit" class="btn btn-danger ml-2" formaction="/course/del?id={{course.ID_COURSE}}">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </button>
     </div>
   </div>
+
+  <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Large Modal</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+			  	<input id="selectedLesson" type="text" class="form-control" style="display: none;" value="">
+          <div class="row d-flex justify-content-center">
+            <div class="form-group col-5">
+              <label for="fuLesson">Video</label>
+              <input type="file" id="fuLesson" name="fuLesson">
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="closeModal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveModal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </form>

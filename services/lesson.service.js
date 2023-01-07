@@ -14,16 +14,26 @@ export default {
   },
 
  async findAllByChapterId(id) {
-    const list = await db('lesson').where('ID_CHAPTER', id);
+    const list = await db('lesson').where('ID_CHAPTER', id).orderBy("ID_LESSON", "asc");
     if (list.length === 0)
       return null;
 
     return list;
   },
 
-  add(lesson) {
-    return db('lesson').insert(lesson);
+  async add(les) {
+    let num = await db("lesson")
+      .insert(les, ["ID_LESSON"])
+      .then(function (result) {
+        console.log(result);
+        return result[0]; // respond back to request
+      });
+    return num;
   },
+
+  // add(lesson) {
+  //   return db('lesson').insert(lesson);
+  // },
 
   del(id) {
     return db('lesson').where('ID_LESSON', id).del();
