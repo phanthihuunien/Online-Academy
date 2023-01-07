@@ -3,7 +3,7 @@ import { engine } from 'express-handlebars';
 import Handlebars from 'handlebars';
 import hbs_sections from 'express-handlebars-sections'
 import homePageRoute from "./routes/homePage.route.js";
-
+import adminRoute from "./routes/admin.route.js";
 import numeral from 'numeral';
 
 const app = express();
@@ -67,6 +67,7 @@ app.get('/about', function (req, res) {
 //   res.render('vwHomePage/homePage')
 // })
 app.use('/homePage', homePageRoute);
+app.use('/admin', adminRoute);
 app.use(function (req, res, next) {
   res.render('404', { layout: false });
 });

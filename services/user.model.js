@@ -9,4 +9,7 @@ export default {
 
         return list[0];
     },
+    getAllUserByType(type) {
+        return db('users').where('TYPE', type);
+    },
 }
