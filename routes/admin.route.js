@@ -2,6 +2,7 @@ import express, {request} from 'express';
 import userModel from "../services/user.model.js";
 import fieldModel from "../services/field.model.js";
 import categoryModel from "../services/category.model.js";
+import courseModel from "../services/course.model.js";
 const router = express.Router();
 router.get('/manageStudent', async function(req, res) {
 
@@ -105,22 +106,11 @@ router.post("/field/add", async function (req, res) {
     const ret = await fieldModel.add(req.body);
     res.redirect("/admin/manageField");
 });
-// router.get('/field/confirmDlt', async function(req, res) {
-//
-//     res.render('vwAdmin/field/deleteConfirm',{
-//
-//     });
-// })
-router.post("/field/delete", async function (req, res) {
-    const ret = await fieldModel.del(req.body.ID_FIELD);
-    res.redirect("/admin/manageField");
-});
 
-router.post("/del", async function (req, res) {
-    //check if del cat has had courses=> prevent del
-    const courses = await categoryModel.getAllCatByFieldID(req.body.ID_CATE);
-    //console.log(courses);
-    if (courses.length === 0) {
+
+router.post("field/delete", async function (req, res) {
+    const cat = await categoryModel.getAllCatByFieldID(req.body.ID_FIELD);
+    if (cat.length === 0) {
         const ret = await fieldModel.del(req.body);
         res.redirect("/admin/manageField");
     }
@@ -140,5 +130,57 @@ router.post("/field/edit/:id", async function (req, res) {
     const ret = await fieldModel.patch(req.body, id);
 
     res.redirect("/admin/manageField");
+});
+
+
+router.get('/manageCat', async function(req, res) {
+    const limit3 = 5;
+    const curPage = req.query.page || 1;
+    const offset = (curPage - 1) * limit3;
+    const catList = await categoryModel.findPageOfCat(limit3, offset);
+    const total = await categoryModel.countByAllCat();
+    const nPages = Math.ceil(total / limit3);
+    const pageNumbers = [];
+    for (let i = 1; i <= nPages; i++) {
+        pageNumbers.push({
+            value: i,
+            isCurrent: i === +curPage
+        });
+    }
+    console.log(+curPage === 1)
+    res.render('vwAdmin/category/catManage',{
+        cate: catList,
+        empty: catList.length === 0,
+        pageNumbers: pageNumbers,
+        next: +curPage + 1,
+        isNotEnd: +curPage !== +nPages,
+        prev:+curPage - 1,
+        hasNotPrev: +curPage === 1,
+    });
+
+})
+router.get('/category/add', async function(req, res) {
+
+    res.render('vwAdmin/category/addCat',{
+
+    });
+})
+
+router.post("/category/add", async function (req, res) {
+    const ret = await categoryModel.add(req.body);
+    res.redirect("/admin/manageCat");
+});
+
+
+router.post("/category/delete", async function (req, res) {
+    //check if del cat has had courses=> prevent del
+    const courses = await courseModel.getAllCourseByCatID(req.body.ID_CATE);
+    if (courses.length === 0) {
+        const ret = await categoryModel.del(req.body);
+        res.redirect("/admin/manageCat");
+    }
+    res.render("admin/manageCat", {
+        err_message: "Can not delete field that still has courses!!!",
+    });
 });
 export default router;
