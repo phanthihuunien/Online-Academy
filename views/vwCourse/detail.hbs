@@ -16,7 +16,7 @@
         <div class="row" >
             <div class="col-8" style="background-color:black" ><span style=" margin-top: 24px;">
 
-                <div style="margin-top: 20px;"><img src="/public/imgs/course/{{this.course.ID_COURSE}}/main.jpg"
+                <div style="margin-top: 20px;"><img src="/public/imgs/courses/{{this.course.ID_COURSE}}_main.png"
                            alt="{{this.course.COURSENAME}}" title="{{this.course.COURSENAME}}"></div>
                 <div style="margin-right: 20px;">
                     <p class="card-text" id="txt"  style="color: white"    ><span style="font-size: 20px"> {{this.course.SHORTDES}}</span></p></div>
@@ -219,19 +219,13 @@
 
         <div class="d-flex justify-content-between">
             {{#each top5}}
-
                 <div>
-
-                    <a href="/category/course/detail/{{top555.ID_COURSE}}" ><img src="/public/imgs/course/{{top555.ID_COURSE}}/main_thumbs.jpg" alt="{{top555.COURSENAME}}" title="{{top555.COURSENAME}}"></a>
-
+                    <a href="/category/course/detail/{{top555.ID_COURSE}}" ><img src="/public/imgs/courses/{{top555.ID_COURSE}}_thumbnail.png" alt="{{top555.COURSENAME}}" title="{{top555.COURSENAME}}"></a>
                 </div>
-               <div></div>
-
                 <div >
                     <p>
                         <a style="color: black" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
-                    <p class="card-text" id="txt" style="color:#ffd141"> {{top555.rate}}/5<i class="fa fa-star" aria-hidden="true"></i>
-                        <span class="text" style="color:plum">  ({{format_number top555.RATENUM}})   </span>
+
                     </p>
 
 
@@ -245,6 +239,19 @@
 
             {{/each}}</div>
         </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
