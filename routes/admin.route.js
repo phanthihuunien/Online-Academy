@@ -1,6 +1,7 @@
-import express from 'express';
+import express, {request} from 'express';
 import userModel from "../services/user.model.js";
 import fieldModel from "../services/field.model.js";
+import categoryModel from "../services/category.model.js";
 const router = express.Router();
 router.get('/manageStudent', async function(req, res) {
 
@@ -104,10 +105,40 @@ router.post("/field/add", async function (req, res) {
     const ret = await fieldModel.add(req.body);
     res.redirect("/admin/manageField");
 });
-router.get('/field/confirmDlt', async function(req, res) {
+// router.get('/field/confirmDlt', async function(req, res) {
+//
+//     res.render('vwAdmin/field/deleteConfirm',{
+//
+//     });
+// })
+router.post("/field/delete", async function (req, res) {
+    const ret = await fieldModel.del(req.body.ID_FIELD);
+    res.redirect("/admin/manageField");
+});
 
-    res.render('vwAdmin/field/deleteConfirm',{
-
+router.post("/del", async function (req, res) {
+    //check if del cat has had courses=> prevent del
+    const courses = await categoryModel.getAllCatByFieldID(req.body.ID_CATE);
+    //console.log(courses);
+    if (courses.length === 0) {
+        const ret = await fieldModel.del(req.body);
+        res.redirect("/admin/manageField");
+    }
+    res.render("admin/manageField", {
+        err_message: "Can not delete field that still has courses!!!",
     });
-})
+});
+router.get("/field/edit/:id", async function (req, res) {
+    const id = request.params.id || 0;
+    const name = await fieldModel.getFieldNameById(id);
+    res.render("vwAdmin/field/editField", {
+        fieldName:name,
+    });
+});
+router.post("/field/edit/:id", async function (req, res) {
+    const id = request.params.id || 0;
+    const ret = await fieldModel.patch(req.body, id);
+
+    res.redirect("/admin/manageField");
+});
 export default router;

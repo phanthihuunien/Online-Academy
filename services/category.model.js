@@ -7,5 +7,8 @@ export default {
                    group by c.ID_CATE`;
         return db.raw(sql);
     },
+    getAllCatByFieldID(id){
+        return db('category').where('ID_FIELD', id);
+    }
 
 }

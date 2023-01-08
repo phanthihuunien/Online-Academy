@@ -32,4 +32,16 @@ export default {
     add(entity) {
         return db('field').insert(entity);
     },
+    del(id) {
+        return db('field').where('ID_FIELD', id).del();
+    },
+    patch(entity, idField) {
+        delete entity.ID_FIELD;
+        return db('field').where('ID_FIELD', idField).update(entity);
+    },
+
+    async getFieldNameById(id) {
+        const list = await db('field').where('ID_FIELD', id);
+        return list[0];
+    },
 }
