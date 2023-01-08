@@ -40,80 +40,58 @@
                 {{else}}
                     <p class="card-text"><span class="text" style="font-size: 25px">{{format_number this.course.PRICE}} VND</span></p>
                 {{/if}}
-
                 {{#if isLogin}}
+                    {{#if isInstructor}}
+                        <div class="input-group mb-3">
+                            <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
+                            <p>
+                                <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">
+                                    Edit  <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </p>
 
-                    {{#if isSave}}
-                        {{#if isInstructor}}
-                                <div class="input-group mb-3">
-                                    <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
-
-                                    <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
-                                       role="button">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                        Edit
-                                    </a>
-
-                                </div>
-                        {{/if}}
+                        </div>
                     {{else}}
-                        <p>
-                            <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/save" role="button" style="font-size: 25px"  >Save to watch list   <i class="fa fa-save"></i></a>
-                        </p>
-
-                    {{/if}}
-
-                    {{#if isBought}}
-                        {{#if isInstructor}}
-                            <div class="input-group mb-3">
-                                <input type="hidden" value="{{ID_COURSE}}" name="ID_COURSE">
-
-                                <a name="" id="" class="btn btn-outline-primary ml-2" href="#"
-                                   role="button">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    Edit
-                                </a>
-
-                            </div>
-                        {{else}}
-                            {{#if isSave}}
+                        {{#if isSave}}
+                            {{#if isBought}}
                                 <p>
                                     <a class="btn btn-primary" href="#" role="button" style="font-size: 25px" >Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
                                 </p>
-
-
                             {{else}}
-
                                 <p>
-                                    <a class="btn btn-primary" href="#" role="button" style="font-size: 25px">Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
+                                    <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
                                 </p>
-
-
-
+                            {{/if}}
+                        {{else}}
+                            {{#if isBought}}
+                                <p>
+                                    <a class="btn btn-primary" href="#" role="button" style="font-size: 25px" >Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
+                                </p>
+                            {{else}}
+                                <p>
+                                    <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
+                                </p>
                             {{/if}}
 
-
+                            <p>
+                                <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/save" role="button" style="font-size: 25px"  >Save to watch list   <i class="fa fa-save"></i></a>
+                            </p>
 
                         {{/if}}
-                    {{else}}
-                        <p>
-                            <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
-                        </p>
 
 
                     {{/if}}
+
                 {{else}}
-
                     <p>
-                        <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
+                        <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
                     </p>
-
                 {{/if}}
+
+
 
             </div>
 
         </div>
-
 
 
 
