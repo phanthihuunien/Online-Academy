@@ -3,6 +3,8 @@ import userModel from "../services/user.model.js";
 import fieldModel from "../services/field.model.js";
 import categoryModel from "../services/category.model.js";
 import courseModel from "../services/course.model.js";
+import userCourseModel from "../services/user-course.model.js";
+import CourseModel from "../services/course.model.js";
 const router = express.Router();
 router.get('/manageStudent', async function(req, res) {
 
@@ -61,10 +63,79 @@ router.get('/manageInstructor', async function(req, res) {
     });
 })
 router.get('/manageCourse', async function(req, res) {
+    const limit = 5;
+    const curPage = req.query.page || 1;
+    const offset = (curPage - 1) * limit;
+    const courseList = await CourseModel.findPageOfCourse(limit, offset);
 
+    const total = await CourseModel.countByAllCourse();
+    const nPages = Math.ceil(total / limit);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= nPages; i++) {
+        pageNumbers.push({
+            value: i,
+            isCurrent: i === +curPage
+        });
+    }
+
+    const courses = [];
+    for (let course of courseList) {
+        let instructor = await userModel.getCourseFromUser(course.ID_USER);
+        let rate= await userCourseModel.getAvgRateByCourseId(course.ID_COURSE);
+        let courseRate = null;
+        if(rate === null){
+            courseRate = 0;
+        }else{
+            courseRate = parseFloat(rate).toFixed(1);
+        }
+
+        const newCourse = await courseModel.newCourse();
+        let newC;
+        for(let c of newCourse){
+            if(course.LASTUPDATE >= c.LASTUPDATE){
+                console.log(course.LASTUPDATE === c.LASTUPDATE)
+                newC = 1;
+                break;
+            }
+            newC = 0;
+        }
+        const listPplCourse = await courseModel.mostPopular();
+        let bestSeller;
+        for(let c of listPplCourse){
+            if(course.STUNUM >= c.STUNUM){
+                bestSeller = 1;
+                break;
+            }
+            bestSeller = 0;
+        }
+        let realPrice = 0;
+        let isDiscount = true;
+        if (isNaN(parseInt(course.DISCOUNT)) || parseInt(course.DISCOUNT) === 0) {
+            realPrice = course.PRICE;
+            isDiscount = false;
+        } else {
+            let price = +course.PRICE,
+                sale = +course.DISCOUNT;
+            realPrice = price - (price * sale) / 100;
+        }
+        courses.push({
+            course,
+            instructor,
+            courseRate,
+            bestSeller,
+            newC,
+            realPrice,
+        });
+    }
     res.render('vwAdmin/course/courseList',{
-
-
+        courseList:courses,
+        empty: courses.length === 0,
+        pageNumbers: pageNumbers,
+        next: +curPage + 1,
+        isNotEnd: +curPage !== +nPages,
+        prev:+curPage - 1,
+        hasNotPrev: +curPage === 1,
     });
 })
 
@@ -183,4 +254,5 @@ router.post("/category/delete", async function (req, res) {
         err_message: "Can not delete field that still has courses!!!",
     });
 });
+
 export default router;

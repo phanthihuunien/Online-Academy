@@ -1,0 +1,66 @@
+<div class="container mt-1 mb-3">
+    <div class="d-flex align-items-center justify-content-space-evenly search-result-header mt-4 ml-5">
+        <div class="d-flex flex-end search-result-header-title mt-4 ml-5">
+
+        </div>
+        <div class="search-result-header-sort mt-4 ml-5">
+            <select class="form-control" id="filter" style ="width: auto;">
+                <option>Sort By</option>
+                <option>Star rating</option>
+                <option>Price ascending</option>
+            </select>
+        </div>
+    </div>
+
+    {{#each this.courseList}}
+        <div class="row w-100 h-100 mt-3 mb-4">
+            <div class="col-sm h-100"><img src="/public/images/courses/{{course.ID_COURSE}}/{{course.ID_COURSE}}_thumbnail.png" alt="Image" class="img-thumbnail" ></div>
+            <div class="col-xl-6 h-100">
+                <a href="#"><h5 class="card-title">{{course.COURSENAME}}</h5></a>
+                <div class="card-text">{{course.SHORTDES}}</div>
+                <div class="card-text text-muted">{{instructor.FULLNAME}}</div>
+                <div>{{courseRate}} {{renderStars courseRate}} ({{course.RATENUM}})</div>
+
+                {{#if bestSeller}}
+                    <span class="bg-primary text-white font-italic">Bestseller</span>
+                {{else}}
+                    {{#if newC}}
+                        <span class="bg-success text-white font-italic">New</span>
+                    {{/if}}
+                {{/if}}
+            </div>
+
+            <div class="col-lg-2"><h5 class="card-title text-danger text-right align-text-bottom">{{format_number realPrice}} VND</h5></div>
+        </div>
+
+    {{/each}}
+
+    <div class="d-flex justify-content-center mt-3 mt-sm-3">
+        <nav class="shadow-sm">
+            <ul class="pagination">
+
+                <li class="page-item {{#if hasNotPrev}}disabled{{/if}}">
+                    <a class="page-link" href="?page={{prev}}">Previous</a>
+                </li>
+                {{#each this.pageNumbers}}
+                    {{#if isCurrent}}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{value}}</span>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{value}}">{{value}}</a>
+                        </li>
+                    {{/if}}
+                {{/each}}
+                {{#if isNotEnd}}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{next}}">Next</a>
+                    </li>
+                {{/if}}
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
