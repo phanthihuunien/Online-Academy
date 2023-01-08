@@ -14,4 +14,22 @@ export default {
         // }
         // return list;
     },
+    getAllField(){
+       return db('field');
+    },
+    async countByAllField() {
+        const list = await db('field')
+            .count({ amount: 'ID_FIELD' });
+
+        return list[0].amount;
+    },
+
+    findPageOfField(limit, offset) {
+        return db('field')
+            .limit(limit)
+            .offset(offset);
+    },
+    add(entity) {
+        return db('field').insert(entity);
+    },
 }
