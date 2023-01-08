@@ -10,7 +10,7 @@ router.get("/", async function (req, res) {
     const userid = req.session.authUser.ID_USER;
     const items = [];
     let myCourses;
-    if (req.session.authUser.TYPE == 1) {
+    if (req.session.authUser.TYPE == 3) {
         //get all courses of logged student
         myCourses = await userCourseModel.findAllbyUserID(userid);
     } else if (req.session.TYPE == 2) {

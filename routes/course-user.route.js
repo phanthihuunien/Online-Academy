@@ -14,12 +14,38 @@ import express from 'express';
 
 const router = express.Router();
 let isBought = false;
-let isLogin = true;
+let isLogin = req.session.auth;
 let isSave = false;
+let isInstructor =false;
 
 
 
 router.get("/detail/:id", async function (req, res) {
+    if(req.session.authUser.TYPE == 2){
+        isInstructor =true;
+    }
+    if (isLogin) {
+        const orderdetail = await userCourseModel.findbyUserCourse(
+            req.params.id,
+            req.session.authUser.ID_USER
+
+        );
+        if (orderdetail.length === 0) {
+        } else {
+            isBought = true;
+        }
+
+        const wishlistdetail = await wishlistModel.findAllbyUserAndCourseID(
+
+            req.session.authUser.ID_USER,
+            req.params.id,
+        )
+        if (wishlistdetail.length === 0) {
+        } else {
+            isSave = true;
+        }
+
+    }
 
 
     const courseID = req.params.id ||0;
@@ -120,6 +146,8 @@ router.get("/detail/:id", async function (req, res) {
 
 
 
+
+
 //find instructor
     let instructor = await userModel.findbyID(course.ID_USER);
 
@@ -154,10 +182,15 @@ router.get("/detail/:id", async function (req, res) {
         isBought,
         isLogin,
         isSave,
+        isInstructor,
     });
 });
 
 router.get("/detail/:id/enroll", async function (req, res) {
+    if(req.session.authUser.TYPE == 2){
+        isInstructor =true;
+    }
+
     const courseID = req.params.id ||0;
 
     const course = await courseModel.findbyID(courseID);
@@ -296,14 +329,17 @@ router.get("/detail/:id/enroll", async function (req, res) {
         lessondata,
         isBought,
         isSave,
-        //  isLogin: req.session.isLogin,
         isLogin,
         err_message: "Enroll Sucessfully!!!",
+        isInstructor,
     });
 
 });
 
 router.get("/detail/:id/save", async function (req, res) {
+    if(req.session.authUser.TYPE == 2){
+        isInstructor =true;
+    }
     isSave = true;
     const courseID = req.params.id ||0;
 
@@ -437,6 +473,9 @@ router.get("/detail/:id/save", async function (req, res) {
         lessondata,
         isBought,
         isSave,
+        isInstructor,
+        isLogin,
+
 
 
         err_message: "Save Sucessfully!!!",
