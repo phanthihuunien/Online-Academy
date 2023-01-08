@@ -287,7 +287,6 @@ app.post("/course/edit", async function (req, res) {
                   id: chap.lessonId[i],
                   ID_CHAPTER: chap.id,
                   LESSONNAME: name,
-                  REVIEW: 0,
                 };
                 await lessonService.patch(lesInsert);
 
@@ -395,7 +394,6 @@ app.post("/course/create", async function (req, res) {
           ID_CHAPTER: 1,
           LESSONNAME: "TEMP",
           URL: file.originalname,
-          REVIEW: 0,
         });
         ledIdList.push(lesId);
         cb(null, lesId + ".png");
@@ -462,7 +460,6 @@ app.post("/course/create", async function (req, res) {
                 id: ledIdList[i],
                 ID_CHAPTER: chapId,
                 LESSONNAME: name,
-                REVIEW: 0,
               };
               await lessonService.patch(lesInsert);
 
