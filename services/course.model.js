@@ -9,15 +9,12 @@ export default {
     mostPopularInWeek(){
         return db('course').orderBy('STUNUM', 'desc').limit(3);
     },
-    mostPopular(){
-        return db('course').orderBy('STUNUM', 'desc').limit(7);
-    },
 
     top10Popular() {
         return db('course').orderBy('VIEWED', 'desc').limit(10);
     },
     newCourse() {
-        return db('course').orderBy('LASTUPDATE', 'desc').limit(5);
+        return db('course').orderBy('LASTUPDATE', 'desc').limit(10);
     },
     getAllCourseByCatID(id){
         return db('course').where('ID_CATE', id);
@@ -34,5 +31,4 @@ export default {
             .limit(limit)
             .offset(offset);
     },
-
 }
