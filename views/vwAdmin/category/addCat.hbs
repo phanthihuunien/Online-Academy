@@ -2,16 +2,28 @@
 <p>
     <form class="was-validated" method="post">
         <card>
-            <div class="card-body mb-3">
-                <label for="CATENAME">Category Name</label>
-                <input type="text" class="form-control is-invalid" id="CATENAME" name="CATENAME" placeholder="Enter category name" required></input>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="CATENAME">Category Name</label>
+                    <input type="text" class="form-control is-invalid" id="CATENAME" name="CATENAME" placeholder="Enter category name" required></input>
+                </div>
+
+                <div class="form-group">
+                    <label for="ID_FIELD">Field</label>
+                    <select class="custom-select" id="ID_FIELD" value="{{ID_FIELD}}" required>
+                        <option value="">Select field</option>
+                        {{#each this.fields}}
+                            <option value={{ID_FIELD}}>{{FIELDNAME}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Save
+                </button>
             </div>
         </card>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-check" aria-hidden="true"></i>
-                Save
-            </button>
-        </div>
     </form>
 </p>

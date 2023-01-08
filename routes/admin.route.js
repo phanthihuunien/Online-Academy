@@ -21,7 +21,7 @@ router.get('/manageStudent', async function(req, res) {
             isCurrent: i === +curPage
         });
     }
-    console.log(+curPage === 1)
+
     res.render('vwAdmin/user/studentList',{
         students: studentList,
         empty: studentList.length === 0,
@@ -49,7 +49,7 @@ router.get('/manageInstructor', async function(req, res) {
             isCurrent: i === +curPage
         });
     }
-    console.log(+curPage === 1)
+
     res.render('vwAdmin/user/studentList',{
         students: studentList,
         empty: studentList.length === 0,
@@ -75,7 +75,7 @@ router.get('/manageField', async function(req, res) {
     const fieldList = await fieldModel.findPageOfField(limit3, offset);
     const total = await fieldModel.countByAllField();
     const nPages = Math.ceil(total / limit3);
-console.log("++++++++++++" + fieldList)
+
     const pageNumbers = [];
     for (let i = 1; i <= nPages; i++) {
         pageNumbers.push({
@@ -83,7 +83,7 @@ console.log("++++++++++++" + fieldList)
             isCurrent: i === +curPage
         });
     }
-    console.log(+curPage === 1)
+
     res.render('vwAdmin/field/fieldManage',{
         fields: fieldList,
         empty: fieldList.length === 0,
@@ -147,7 +147,6 @@ router.get('/manageCat', async function(req, res) {
             isCurrent: i === +curPage
         });
     }
-    console.log(+curPage === 1)
     res.render('vwAdmin/category/catManage',{
         cate: catList,
         empty: catList.length === 0,
@@ -160,9 +159,10 @@ router.get('/manageCat', async function(req, res) {
 
 })
 router.get('/category/add', async function(req, res) {
-
+    const fieldList = await fieldModel.getAllField();
+    console.log(fieldList);
     res.render('vwAdmin/category/addCat',{
-
+        fields: fieldList,
     });
 })
 
