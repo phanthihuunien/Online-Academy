@@ -1,4 +1,4 @@
-<div class="card" style="width: 100%"   >
+<div class="card w-100">
     <h4 class="card-header">
         {{this.course.COURSENAME}}
     </h4>
@@ -14,10 +14,13 @@
 
 
         <div class="row" >
-            <div class="col-8" style="background-color:black" ><span style=" margin-top: 24px;">
+            <div class="col-2" style="background-color:black;padding-bottom: 20px;" >
 
-                <div style="margin-top: 20px;"><img src="/public/imgs/courses/{{this.course.ID_COURSE}}_main.png"
+                <div style="margin-top: 20px;"><img  src="/public/imgs/courses/{{this.course.ID_COURSE}}_main.png"
                            alt="{{this.course.COURSENAME}}" title="{{this.course.COURSENAME}}"></div>
+            </div>
+            <div class="col-8" style="background-color:black" >
+                <div style="padding-top: 40px;">
                 <div style="margin-right: 20px;">
                     <p class="card-text" id="txt"  style="color: white"    ><span style="font-size: 20px"> {{this.course.SHORTDES}}</span></p></div>
                 <div style="margin-right: 20px;">
@@ -27,8 +30,8 @@
                     </p>
                     <p class="card-text" id="txt"style="color: white">Created date: {{this.course.CREATEDATE}}</p>
                     <p class="card-text" id="txt"style="color: white">Lastest update: {{this.course.LASTUPDATE}}</p></div>
+                </div>
 
-            </span>
             </div>
 
 
@@ -53,28 +56,28 @@
                     {{else}}
                         {{#if isSave}}
                             {{#if isBought}}
-                                <p>
+                                <span>
                                     <a class="btn btn-primary" href="#" role="button" style="font-size: 25px" >Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
-                                </p>
+                                </span>
                             {{else}}
-                                <p>
+                                <span>
                                     <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
-                                </p>
+                                </span>
                             {{/if}}
                         {{else}}
                             {{#if isBought}}
-                                <p>
+                                <span>
                                     <a class="btn btn-primary" href="#" role="button" style="font-size: 25px" >Start learning <i class="fa fa-play" aria-hidden="true"></i></a>
-                                </p>
+                                </span>
                             {{else}}
-                                <p>
+                                <span>
                                     <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/enroll" type="submit" role="button" style="font-size: 25px">Buy now</a>
-                                </p>
+                                </span>
                             {{/if}}
 
-                            <p>
-                                <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/save" role="button" style="font-size: 25px"  >Save to watch list   <i class="fa fa-save"></i></a>
-                            </p>
+                            <span>
+                                <a class="btn btn-primary" href="/category/course/detail/{{this.course.ID_COURSE}}/save" role="button" style="font-size: 25px"  > <i class="fa fa-heart"></i></a>
+                            </span>
 
                         {{/if}}
 
@@ -82,9 +85,9 @@
                     {{/if}}
 
                 {{else}}
-                    <p>
+                    <span>
                         <a class="btn btn-primary" href="#" type="submit" role="button" style="font-size: 25px">Buy now</a>
-                    </p>
+                    </span>
                 {{/if}}
 
 
@@ -99,7 +102,7 @@
 
 
         <div class="row" style="margin-top: 20px" style="border-top-style:solid">
-            <div class="col-5">
+            <div class="col-6">
                 <h5 >DESCRIPTION</h5>
                 <div class="row" >
 
@@ -115,8 +118,8 @@
                 <div class="row" style="margin-top: 20px">
 
                     <p>
-                    <div >
-                        <div><img class="rounded-circle shadow-4-strong img-fluid sm" src="/public/imgs/user/avatar{{this.course.ID_COURSE}}.png" alt="teacher"
+                    <div style="padding-left: 20px;" >
+                        <div><img style="max-height: 150px; max-width: 150px;" class="rounded-circle shadow-4-strong img-fluid; " src="/public/imgs/user/avatar{{this.course.ID_COURSE}}.png" alt="teacher"
                                   title="teacher"></div>
 
                         <div style="margin-left: 20px;">
@@ -133,7 +136,7 @@
 
             </div>
 
-            <div class="col-5">
+            <div class="col-6">
                 <h5 style="margin-bottom: 20px">Course Content</h5>
                 <div class="d-flex justify-content-between">
                     <p>{{this.course.VIEWED}} sections - {{this.course.LENGTHS}} total length</p>
@@ -201,19 +204,12 @@
                     <a href="/category/course/detail/{{top555.ID_COURSE}}" ><img src="/public/imgs/courses/{{top555.ID_COURSE}}_thumbnail.png" alt="{{top555.COURSENAME}}" title="{{top555.COURSENAME}}"></a>
                 </div>
                 <div >
-                    <p>
-                        <a style="color: black" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
+                    <p style="padding-left: 20px;">
+                        <a style="color:plum" href="/category/course/detail/{{top555.ID_COURSE}}">{{top555.COURSENAME}}</a>
 
                     </p>
-
-
-
-                    </p>
-                    <p class="card-text"><span class="text" >{{format_number top555.PRICE}} VND</span></p>
-
-
-
-            </div>
+                    <p style="padding-left: 20px;">{{format_number top555.PRICE}} VND</p>
+                </div>
 
             {{/each}}</div>
         </div>
@@ -233,7 +229,7 @@
 
 
 
-    <h4>Course ratings</h4>
+    <h4 style="padding-left: 20px;">Course ratings</h4>
         <div class="row" style="margin-top: 20px">
 
             <div class="d-flex justify-content-between">
@@ -241,19 +237,18 @@
                     <card>
 
                     </card>
-                    <div>
+                    <div style="margin-left: 20px;">
 
-                        <a href="/category/course/detail/{{user.ID_USER}}" ><img class="rounded-circle shadow-4-strong img-fluid sm" src="/public/imgs/user/avatar{{user.ID_USER}}.png" alt="{{user.FULLNAME}}" title="{{user.FULLNAME}}"></a>
+                        <a href="/category/course/detail/{{user.ID_USER}}" ><img style="max-height: 100px; max-width: 100px;" class="rounded-circle shadow-4-strong img-fluid sm" src="/public/imgs/user/avatar{{user.ID_USER}}.png" alt="{{user.FULLNAME}}" title="{{user.FULLNAME}}"></a>
 
                     </div>
                     <div></div>
 
-                    <div >
+                    <div style="padding-left: 20px;" >
                         <p>
                             <p style="color: black" href="#">{{user.FULLNAME}}</p>
-                        <p class="card-text" id="txt" style="color:#ffd141"> {{feedback.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
-
-                        </p>
+                        <div class="card-text" id="txt" style="color:#ffd141"> {{feedback.RATE}}/5<i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
 
 
 
