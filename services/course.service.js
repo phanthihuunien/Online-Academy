@@ -27,8 +27,25 @@ export default {
     return list;
   },
 
-  async add(course) {
-   
+  async add() {
+    let course = {
+      ID_FIELD: 1,
+      ID_CATE: 1,
+      // ID_USER: req.session.authUser.ID_USER,
+      ID_USER: 1,
+
+      COURSENAME: "data.CourseName",
+      LENGTHS: 0,
+      CREATEDATE: moment().format("YYYY-MM-DD"),
+      LASTUPDATE: moment().format("YYYY-MM-DD"),
+      PRICE: 0,
+      VIEWED: 0,
+      DESCRIPTIONS: "data.FullDes",
+      DISCOUNT: 0,
+      SHORTDES: "data.ShortDes",
+      RATENUM: 0,
+      STUNUM: 0,
+    };
     let num = await db("course")
       .insert(course, ["ID_COURSE"])
       .then(function (result) {
