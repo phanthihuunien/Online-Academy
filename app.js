@@ -24,7 +24,7 @@ import myCourseRoute from "./routes/mycourse.route.js";
 import LearningPageModel from './services/LearningPage.model.js';
 import categoryRoute from './routes/categories.route.js';
 import searchRoute from './routes/search.route.js';
-import wishlistRoute from './routes/wishlist.route.js';
+import watchlistRoute from './routes/watchlist.route.js';
 
 import db from "./utils/db.js";
 
@@ -593,7 +593,7 @@ app.use("/homePage", homePageRoute);
 app.use("/admin", adminRoute);
 
 app.use("/category/course", courseUserRoute);
-app.use('/account/watchlist', wishlistRoute);
+app.use('/account/watchlist', watchlistRoute);
 app.use("/account/mycourse", myCourseRoute);
 app.use('/categories', categoryRoute);
 app.use('/search', searchRoute);
