@@ -8,8 +8,11 @@ router.get("/", async function (req, res) {
   const userid = req.session.authUser.ID_USER;
   const items = [];
   let myCourses;
-
+let isInstructor = false;
   myCourses = await courseModel.findAllbyIDUser(userid);
+  if(req.session.authUser.TYPE == 2){
+	  isInstructor = true;
+  }
 
   // myCourses = await userCourseModel.findAllbyUserID(1);
   if (myCourses != null) {
@@ -48,6 +51,7 @@ router.get("/", async function (req, res) {
     CourseName: "My Course",
     items,
     isEmpty: items.length === 0,
+	isInstructor,
   });
 });
 
