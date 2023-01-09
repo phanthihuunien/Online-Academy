@@ -93,8 +93,8 @@ router.get('/', async function(req, res) {
         top10: items,
         newCourseList: items2,
         mostTrendingFieldss: list,
-        empty: listPplCourse === 0
-
+        empty: listPplCourse === 0,
+        layout: false,
     });
 
 })

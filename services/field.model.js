@@ -32,7 +32,7 @@ export default {
         return db('field').where('ID_FIELD', idField).update(entity);
     },
 
-    async getFieldNameById(id) {
+    async getFieldById(id) {
         const list = await db('field').where('ID_FIELD', id);
         return list[0];
     },

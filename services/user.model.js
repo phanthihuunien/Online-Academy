@@ -26,4 +26,11 @@ export default {
             .limit(limit)
             .offset(offset);
     },
+
+    patch(user){
+        const id = user.id;
+        delete user.id;
+        return db('users').where('ID_USER', id).update(user);
+
+    }
 }

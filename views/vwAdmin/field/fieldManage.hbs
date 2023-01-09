@@ -11,7 +11,7 @@
                     <table class="table manage-candidates-top mb-0">
                         <thead>
                         <tr>
-                            <th>Field List<span>&nbsp;&nbsp;&nbsp;&nbsp;</span><a class="btn btn-success" href="/admin/field/add" role="button"><i  class="fa fa-plus" aria-hidden="true"></i> ADD</a></th>
+                            <th>Fields<span>&nbsp;&nbsp;&nbsp;&nbsp;</span><a class="btn btn-success" href="/admin/field/add" role="button"><i  class="fa fa-plus" aria-hidden="true"></i> ADD</a></th>
                             <th class="action text-right">Action</th>
                         </tr>
                         </thead>
@@ -23,7 +23,7 @@
                                     <div class="candidate-list-details">
                                         <div class="candidate-list-info">
                                             <div class="candidate-list-title">
-                                                <h5 class="font-weight-bold mb-0"><a href="#">{{FIELDNAME}}</a></h5>
+                                                <h5 class="font-weight-bold mb-0"><a href="/admin/field/{{ID_FIELD}}">{{FIELDNAME}}</a></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -31,8 +31,8 @@
 
                                 <td>
                                     <ul class="list-unstyled mb-0 d-flex justify-content-end">
-                                        <li><a class="btn btn-info" href="/admin/field/edit/{{ID_FIELD}}" role="button"><i  class="far fa-edit"></i> Edit</a></li>
-                                        <li> <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#basicModal"><i class="fa fa-trash" aria-hidden="true" id="delBtn"></i> Delete</a></li>
+                                        <li><a class="btn btn-info" href="/admin/field/edit?id={{ID_FIELD}}" role="button"><i  class="far fa-edit"></i> Edit</a></li>
+                                        
                                     </ul>
                                 </td>
                             </tr>
@@ -71,48 +71,3 @@
         </div>
     </div>
 </div>
-{{#if err_message}}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        {{err_message}}
-    </div>
-{{/if}}
-<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Confirm</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h3>Do you want to detele it?</h3>
-            </div>
-            <div class="modal-footer">
-                <form action="" method="post">
-                    <input style="display: none" type="text" value="" id="selectedField" name="selectedField">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger" formaction="/admin/field/delete">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<script>
-    $(document).ready(function (){
-        $("#content").on("click", "#delBtn", function(e){
-            let t = $(this).parent('li').parent('ul').parent('tr').parent('td');
-            let id = t.data('id');
-            $("#selectedField").val(id);
-        });
-
-    })
-</script>
