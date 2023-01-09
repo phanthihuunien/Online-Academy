@@ -2,13 +2,14 @@
 
 
     <h2>{{CourseName}}</h2>
+	{{#if isInstructor}}
         <div class="card-header">
             <a href="/course/create" class="btn btn-outline-primary">
                 <i class="fa fa-plus" aria-hidden="true"></i>
                 New course
             </a>
         </div>
-
+	{{/if}}
 
 
     <div class="card-body">
