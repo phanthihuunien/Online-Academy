@@ -24,10 +24,11 @@ router.get("/detail/:id", async function (req, res) {
 
   
     
-  if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
+  if (isLogin) {
+    if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
       isInstructor = true;
   }
-  if (isLogin) {
+
       const orderdetail = await userCourseModel.findbyUserCourse(
           req.params.id,
           req.session.authUser.ID_USER
@@ -154,10 +155,11 @@ router.get("/detail/:id/enroll", async function (req, res) {
   let isInstructor = false;
   let isSave = false;
 
+if (isLogin) {
   if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
     isInstructor = true;
 }
-if (isLogin) {
+
     const orderdetail = await userCourseModel.findbyUserCourse(
         req.params.id,
         req.session.authUser.ID_USER
@@ -315,16 +317,17 @@ router.get("/detail/:id/save", async function (req, res) {
   let isInstructor = false;
   let isSave = false;
     
-  if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
+  
+  if (isLogin) {
+    if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
       isInstructor = true;
   }
-  if (isLogin) {
       const orderdetail = await userCourseModel.findbyUserCourse(
           req.params.id,
           req.session.authUser.ID_USER
   
       );
-      if (orderdetail.length ==null) {
+      if (orderdetail ==null) {
          isBought = false;
       } else {
           isBought = true;
