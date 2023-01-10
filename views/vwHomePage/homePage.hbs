@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>E-Commerce Application (20KTPMB)</title>
+    <title>StudyWesite</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -115,7 +115,7 @@
 
                 </div>
 
-                <ul class="navbar-nav " style="width: 250px; float: right; margin:0; padding-left: 220px">
+                <ul class="navbar-nav " style="width: 250px; float: right; margin:0; padding-left: 100px">
                     {{#if auth}}
                         <li class="nav-item dropdown pt-1">
                             <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink"
@@ -184,7 +184,7 @@
                                         <img src="./public/imgs/courses/{{ID_COURSE}}_main.png" class="d-block w-100"
                                             alt={{COURSENAME}}>
                                         <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{COURSENAME}}</h5>
+                                           <a href="/category/course/detail/{{ID_COURSE}}"><h5>{{COURSENAME}}</h5></a> 
                                             <p>{{SHORTDES}}</p>
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
                                         <img src="./public/imgs/courses/{{ID_COURSE}}_main.png" class="d-block w-100"
                                             alt={{COURSENAME}}>
                                         <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{COURSENAME}}</h5>
+                                           <a href="/category/course/detail/{{ID_COURSE}}"><h5>{{COURSENAME}}</h5></a> 
                                             <p>{{SHORTDES}}</p>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                                         <img src="./public/imgs/courses/{{ID_COURSE}}_main.png" class="d-block w-100"
                                             alt={{COURSENAME}}>
                                         <div class="carousel-caption d-none d-md-block">
-                                            <h5>{{COURSENAME}}</h5>
+                                           <a href="/category/course/detail/{{ID_COURSE}}"><h5>{{COURSENAME}}</h5></a> 
                                             <p>{{SHORTDES}}</p>
                                         </div>
                                     </div>
@@ -363,7 +363,7 @@
                                 </div>
                                 {{#each categories}}
                                     <div class="m-3">
-                                        <a class="row text-primary font-weight-bold">{{CATENAME}}</a>
+                                        <a class="row text-primary font-weight-bold" href="/categories/byCat/{{ID_CATE}}">{{CATENAME}}</a>
                                         <div class="text-muted">{{TOTALSTUNUM}} students</div>
                                     </div>
                                 {{/each}}

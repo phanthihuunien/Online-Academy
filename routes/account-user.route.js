@@ -95,7 +95,10 @@ router.post('/login', async function (req, res) {
     req.session.authUser = user;
     // req.session.cart = [];
   
-    const url = req.session.returnURL || '/';
+    let url = req.session.returnURL || '/';
+
+    if(user.TYPE == 1) url = '/'
+
     return res.redirect(url);
 });
 

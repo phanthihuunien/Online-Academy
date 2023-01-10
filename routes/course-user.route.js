@@ -155,6 +155,13 @@ router.get("/detail/:id/enroll", async function (req, res) {
   let isInstructor = false;
   let isSave = false;
 
+  const courseID = req.params.id || 0;
+
+  const course = await courseModel.findbyID(courseID);
+  if (course === null) {
+    return res.redirect("/");
+  }
+
 if (isLogin) {
   if(req.session.authUser.TYPE == 2 && req.session.authUser.ID_USER == course.ID_USER){
     isInstructor = true;
@@ -186,12 +193,6 @@ if (isLogin) {
   
 
 
-  const courseID = req.params.id || 0;
-
-  const course = await courseModel.findbyID(courseID);
-  if (course === null) {
-    return res.redirect("/");
-  }
 
 
   

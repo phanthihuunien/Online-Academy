@@ -46,7 +46,7 @@ export default {
     },
 
     async finById(id){
-        const list = await db('users').where('id', id);
+        const list = await db('users').where('ID_USER', id);
         if(list.lenght === 0){
             return null;
         }
@@ -74,14 +74,14 @@ export default {
     },
     del(id){
         return db('users')
-            .where('id',id)
+            .where('ID_USER',id)
             .del();
     },
     patch(entity){
         const id = entity.id;
         delete entity.id;
         return db('users')
-            .where('id',id)
+            .where('ID_USER',id)
             .update(entity);
     },
 }
